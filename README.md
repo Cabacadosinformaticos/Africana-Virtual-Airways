@@ -1,4 +1,4 @@
-# ✈️ Africana Virtual Airways
+# Africana Virtual Airways
 
 **Africana Virtual Airways** é uma plataforma web desenvolvida no âmbito da unidade curricular **Projeto de Desenvolvimento Web** da **Licenciatura em Engenharia Informática do IADE – Universidade Europeia**.
 
@@ -10,7 +10,7 @@ O projeto segue a metodologia **Project-Based Learning (PBL)** e tem como objeti
 
 ---
 
-# 🎯 Objetivo do Projeto
+# Objetivo do Projeto
 
 O objetivo principal é desenvolver uma **plataforma web funcional para gestão e reserva de voos**, simulando os principais serviços digitais oferecidos por companhias aéreas modernas.
 
@@ -25,7 +25,7 @@ Entre os principais objetivos estão:
 
 ---
 
-# 🖥️ Frontend
+# Frontend
 
 O frontend da plataforma será responsável pela **experiência do utilizador**, disponibilizando várias interfaces interativas relacionadas com a operação da companhia aérea.
 
@@ -62,7 +62,7 @@ Mapa interativo que apresenta aeronaves em movimento, utilizando bibliotecas com
 
 ---
 
-# ⚙️ Backend
+# Backend
 
 O backend será responsável pela **lógica de negócio, gestão de dados e integração com serviços externos**.
 
@@ -117,7 +117,7 @@ Inclui:
 
 ---
 
-# 👥 Equipa de Desenvolvimento
+# Equipa de Desenvolvimento
 
 Projeto desenvolvido por:
 
@@ -135,7 +135,7 @@ Licenciatura em **Engenharia Informática**
 
 ---
 
-# 📜 Licença
+# Licença
 
 Este projeto é distribuído sob a licença **MIT License**.
 
