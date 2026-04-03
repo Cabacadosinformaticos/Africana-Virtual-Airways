@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Results - Africana Airways</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/booking.css" />
+  <style>
+    /* ── Round-trip selection card highlight ──────────────────── */
+    .flight-card.rt-selected {
+      border: 2px solid var(--red-600);
+      box-shadow: 0 0 0 3px rgba(204,31,54,0.12);
+    }
+    .btn-rt-select { font-size: 0.78rem; padding: 7px 14px; }
+    .btn-rt-select.chosen {
+      background: var(--red-600); color: #fff; border-color: var(--red-600);
+    }
+
+    /* ── Round-trip leg divider ───────────────────────────────── */
+    .rt-divider {
+      display: flex; align-items: center; gap: 16px;
+      margin: 32px 0 24px; color: var(--gray-400); font-size: 0.78rem;
+      font-family: var(--font-heading); font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .rt-divider::before, .rt-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--gray-200);
+    }
+
+    /* ── Sticky booking footer for round trip ────────────────── */
+    #roundTripFooter {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--dark); color: #fff;
+      padding: 16px 24px;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+      justify-content: space-between;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 200; box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+    }
+    #roundTripFooter.visible { transform: translateY(0); }
+    .rt-footer-legs { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; opacity: 0.85; }
+    .rt-footer-price { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; }
+    .rt-footer-price small { font-size: 0.7rem; opacity: 0.6; display: block; }
+  </style>
+</head>
+<body>
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/img/Africana Airways With Logo.png" alt="Africana Airways" class="logo-img" />
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="routes.html">Routes</a></li>
+      <li><a href="fleet.html">Fleet</a></li>
+      <li><a href="vatsim.html">Live</a></li>
+      <li><a href="ife.html">Entertainment</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="my-bookings.html">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="my-bookings.html" class="btn-nav-login">My Bookings</a>
+      <a href="booking.html" class="btn-nav-book">Book Now</a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Header bar -->
+<div style="background:var(--dark);padding:18px 0;margin-top:76px;">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div>
+      <div id="searchSummary" style="font-family:var(--font-heading);font-size:1.1rem;font-weight:800;color:var(--white);">Loading results...</div>
+      <div id="searchMeta" style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px;"></div>
+    </div>
+    <a href="index.html" class="btn btn-secondary btn-sm">Modify Search</a>
+  </div>
+</div>
+
+<!-- One-way layout -->
+<div class="container" id="onewayLayout">
+  <div class="results-layout">
+    <aside class="filters-panel">
+      <div class="filter-section">
+        <div class="filter-title">Stops</div>
+        <label class="filter-option"><input type="checkbox" id="filterNonstop" /> Non-stop only</label>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">Cabin Class</div>
+        <label class="filter-option"><input type="checkbox" checked id="filterEco" onchange="applyFilters()" /> Economy</label>
+        <label class="filter-option"><input type="checkbox" checked id="filterBiz" onchange="applyFilters()" /> Business</label>
+        <label class="filter-option"><input type="checkbox" checked id="filterFirst" onchange="applyFilters()" /> First Class</label>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">Max Price (USD)</div>
+        <div class="price-range-wrap">
+          <input type="range" class="price-range" id="priceRange" min="0" max="2000" value="2000" oninput="updatePriceLabel(this)" />
+          <div class="price-labels"><span>$0</span><span id="priceLabel">$2000+</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="results-column">
+      <div class="results-header">
+        <div>
+          <div class="results-title" id="resultsTitle">Available Flights</div>
+          <div class="results-meta" id="resultsSubtitle"></div>
+        </div>
+        <select class="sort-select" onchange="sortFlights(this.value)">
+          <option value="price">Sort: Price</option>
+          <option value="duration">Sort: Duration</option>
+          <option value="departure">Sort: Departure</option>
+        </select>
+      </div>
+      <div id="flightResults"><div class="spinner"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Round-trip layout -->
+<div class="container" id="roundTripLayout" style="display:none;padding-bottom:100px;">
+  <!-- Outbound section -->
+  <div style="margin-top:28px;">
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="outboundTitle">Outbound Flights</div>
+        <div class="results-meta" id="outboundSubtitle">Select your outbound flight</div>
+      </div>
+      <select class="sort-select" onchange="sortOutbound(this.value)">
+        <option value="price">Sort: Price</option>
+        <option value="duration">Sort: Duration</option>
+        <option value="departure">Sort: Departure</option>
+      </select>
+    </div>
+    <div id="outboundResults"><div class="spinner"></div></div>
+  </div>
+
+  <div class="rt-divider">Return Flight</div>
+
+  <!-- Return section -->
+  <div>
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="returnTitle">Return Flights</div>
+        <div class="results-meta" id="returnSubtitle">Select your return flight</div>
+      </div>
+      <select class="sort-select" onchange="sortReturn(this.value)">
+        <option value="price">Sort: Price</option>
+        <option value="duration">Sort: Duration</option>
+        <option value="departure">Sort: Departure</option>
+      </select>
+    </div>
+    <div id="returnResults"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<!-- Round-trip sticky footer -->
+<div id="roundTripFooter">
+  <div class="rt-footer-legs" id="rtFooterLegs"></div>
+  <div class="rt-footer-price" id="rtFooterPrice"></div>
+  <button class="btn btn-primary" id="bookRoundTripBtn">Book Round Trip →</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── URL params ────────────────────────────────────────────────────────────
+  const params    = new URLSearchParams(window.location.search);
+  const from      = params.get('from')       || 'FQMA';
+  const to        = params.get('to')         || 'FAOR';
+  const date      = params.get('date')       || new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+  const returnDate = params.get('returnDate') || '';
+  const passengers = Number(params.get('passengers') || 1);
+  const cabinClass = params.get('class') || 'economy';
+  const tripType   = params.get('tripType') || 'oneway';
+  const isRoundTrip = tripType === 'return' && !!returnDate;
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let onewayData    = { itineraries: [] };
+  let outboundData  = { itineraries: [] };
+  let rtReturnData  = { itineraries: [] };
+  let currentSort   = 'price';
+  let outboundSort  = 'price';
+  let returnSort    = 'price';
+
+  let selectedOutbound     = null;
+  let selectedOutboundCabin = null;
+  let selectedReturn       = null;
+  let selectedReturnCabin  = null;
+
+  // ── Entry point ───────────────────────────────────────────────────────────
+  async function loadResults() {
+    document.getElementById('searchSummary').textContent = isRoundTrip
+      ? `${from} ⇌ ${to} · Round Trip`
+      : `${from} → ${to}`;
+    document.getElementById('searchMeta').textContent = isRoundTrip
+      ? `${formatDate(date)} → ${formatDate(returnDate)} · ${passengers} passenger(s)`
+      : `${formatDate(date)} · ${passengers} passenger(s) · ${capitalise(cabinClass)}`;
+
+    if (isRoundTrip) {
+      document.getElementById('onewayLayout').style.display = 'none';
+      document.getElementById('roundTripLayout').style.display = 'block';
+      await Promise.all([loadOutbound(), loadRtReturn()]);
+    } else {
+      await loadOneWay();
+    }
+  }
+
+  // ── One-way ───────────────────────────────────────────────────────────────
+  async function loadOneWay() {
+    try {
+      const res  = await fetch(`/api/flights/search?from=${from}&to=${to}&date=${date}&passengers=${passengers}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not load flights');
+
+      onewayData = data;
+      document.getElementById('searchSummary').textContent =
+        `${data.origin?.city || from} → ${data.destination?.city || to}`;
+      document.getElementById('resultsTitle').textContent =
+        `${data.itineraries?.length || 0} Itineraries Found`;
+      document.getElementById('resultsSubtitle').textContent =
+        data.searchSummary?.stopsOffered
+          ? 'Direct and connecting options are available.'
+          : 'Direct flights are available.';
+
+      applyFilters();
+    } catch (err) {
+      document.getElementById('flightResults').innerHTML = errorHtml(err.message);
+    }
+  }
+
+  // ── Round-trip: outbound ──────────────────────────────────────────────────
+  async function loadOutbound() {
+    try {
+      const res  = await fetch(`/api/flights/search?from=${from}&to=${to}&date=${date}&passengers=${passengers}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      outboundData = data;
+      document.getElementById('outboundTitle').textContent =
+        `${data.itineraries?.length || 0} outbound flights · ${data.origin?.city || from} → ${data.destination?.city || to}`;
+      renderOutbound(sortedItineraries(data.itineraries || [], outboundSort));
+    } catch (err) {
+      document.getElementById('outboundResults').innerHTML = errorHtml(err.message);
+    }
+  }
+
+  // ── Round-trip: return ────────────────────────────────────────────────────
+  async function loadRtReturn() {
+    try {
+      const res  = await fetch(`/api/flights/search?from=${to}&to=${from}&date=${returnDate}&passengers=${passengers}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      rtReturnData = data;
+      document.getElementById('returnTitle').textContent =
+        `${data.itineraries?.length || 0} return flights · ${data.origin?.city || to} → ${data.destination?.city || from}`;
+      renderReturn(sortedItineraries(data.itineraries || [], returnSort));
+    } catch (err) {
+      document.getElementById('returnResults').innerHTML = errorHtml(err.message);
+    }
+  }
+
+  // ── Render helpers ────────────────────────────────────────────────────────
+  function renderOutbound(itineraries) {
+    const container = document.getElementById('outboundResults');
+    if (!itineraries.length) { container.innerHTML = emptyHtml(); return; }
+    container.innerHTML = itineraries.map(it => rtCardHTML(it, 'outbound')).join('');
+  }
+
+  function renderReturn(itineraries) {
+    const container = document.getElementById('returnResults');
+    if (!itineraries.length) { container.innerHTML = emptyHtml(); return; }
+    container.innerHTML = itineraries.map(it => rtCardHTML(it, 'return')).join('');
+  }
+
+  function rtCardHTML(itinerary, leg) {
+    const first = itinerary.segments[0];
+    const last  = itinerary.segments[itinerary.segments.length - 1];
+    const isSelected = leg === 'outbound'
+      ? selectedOutbound?.itineraryId === itinerary.itineraryId
+      : selectedReturn?.itineraryId   === itinerary.itineraryId;
+
+    // Encode the full itinerary as base64 — use encodeURIComponent to handle any
+    // non-Latin-1 chars (city names etc.) that plain btoa cannot handle
+    const encodedItinerary = btoa(unescape(encodeURIComponent(JSON.stringify(itinerary))));
+
+    const priceButtons = ['economy','business','first'].map(cabin => {
+      const price = itinerary.pricesPerPerson?.[cabin];
+      if (!price) return '';
+      const chosen = isSelected && (
+        leg === 'outbound' ? selectedOutboundCabin === cabin : selectedReturnCabin === cabin
+      );
+      return `<div class="price-option" style="min-width:90px;">
+        <div class="price-class">${capitalise(cabin)}</div>
+        <div class="price-amount">$${price}</div>
+        <div class="price-per">per person</div>
+        <button type="button"
+          class="btn-select btn-rt-select rt-select-btn${chosen ? ' chosen' : ''}"
+          data-leg="${leg}"
+          data-cabin="${cabin}"
+          data-itinerary="${encodedItinerary}">
+          ${chosen ? '✓ Selected' : 'Select'}
+        </button>
+      </div>`;
+    }).join('');
+
+    return `<div class="flight-card${isSelected ? ' rt-selected' : ''}" id="${leg}-${itinerary.itineraryId}">
+      <div class="flight-card-header">
+        <div class="flight-time-block">
+          <div class="flight-time">${first.departure}</div>
+          <div class="flight-airport">${first.from}</div>
+        </div>
+        <div class="flight-middle">
+          <div class="flight-duration">${itinerary.duration}</div>
+          <div class="flight-line"><div class="flight-line-bar"></div>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+          </div>
+          <div class="flight-direct">${itinerary.summary}</div>
+        </div>
+        <div class="flight-time-block right">
+          <div class="flight-time">${last.arrival}</div>
+          <div class="flight-airport">${last.to}</div>
+        </div>
+      </div>
+      <div class="flight-info-row">
+        <span class="flight-info-chip">${itinerary.stopCount ? itinerary.stopCount + ' stop' : 'Non-stop'}</span>
+        <span class="flight-info-chip">${itinerary.segments.map(s => s.flightNumber).join(' / ')}</span>
+        <span class="flight-info-chip">${itinerary.date}</span>
+      </div>
+      <div class="flight-prices">${priceButtons}</div>
+    </div>`;
+  }
+
+  function handleRtSelect(itinerary, cabin, leg, btn) {
+    if (leg === 'outbound') {
+      // Clear previous outbound selection visuals
+      document.querySelectorAll('#outboundResults .rt-select-btn').forEach(el => {
+        el.classList.remove('chosen'); el.textContent = 'Select';
+      });
+      document.querySelectorAll('#outboundResults .flight-card').forEach(el => el.classList.remove('rt-selected'));
+
+      selectedOutbound      = itinerary;
+      selectedOutboundCabin = cabin;
+    } else {
+      // Clear previous return selection visuals
+      document.querySelectorAll('#returnResults .rt-select-btn').forEach(el => {
+        el.classList.remove('chosen'); el.textContent = 'Select';
+      });
+      document.querySelectorAll('#returnResults .flight-card').forEach(el => el.classList.remove('rt-selected'));
+
+      selectedReturn      = itinerary;
+      selectedReturnCabin = cabin;
+    }
+
+    const card = document.getElementById(`${leg}-${itinerary.itineraryId}`);
+    if (card) card.classList.add('rt-selected');
+    if (btn)  { btn.classList.add('chosen'); btn.textContent = '✓ Selected'; }
+
+    updateRoundTripFooter();
+  }
+
+  function updateRoundTripFooter() {
+    const footer   = document.getElementById('roundTripFooter');
+    const legsEl   = document.getElementById('rtFooterLegs');
+    const priceEl  = document.getElementById('rtFooterPrice');
+    if (!footer) return;
+
+    if (selectedOutbound && selectedReturn) {
+      const outPrice = selectedOutbound.pricesPerPerson?.[selectedOutboundCabin] || 0;
+      const retPrice = selectedReturn.pricesPerPerson?.[selectedReturnCabin] || 0;
+      const total    = (outPrice + retPrice) * passengers;
+
+      legsEl.innerHTML = `
+        <span>✈ ${selectedOutbound.segments[0].from} → ${selectedOutbound.segments.at(-1).to}
+          · ${capitalise(selectedOutboundCabin)} · $${outPrice}/pp · ${selectedOutbound.date}</span>
+        <span>✈ ${selectedReturn.segments[0].from} → ${selectedReturn.segments.at(-1).to}
+          · ${capitalise(selectedReturnCabin)} · $${retPrice}/pp · ${selectedReturn.date}</span>`;
+      priceEl.innerHTML = `<small>Total · ${passengers} pax</small>$${total}`;
+      footer.classList.add('visible');
+    } else {
+      footer.classList.remove('visible');
+    }
+  }
+
+  function bookRoundTrip() {
+    if (!selectedOutbound || !selectedReturn) {
+      showToast('Please select both an outbound and a return flight first.', 'error');
+      return;
+    }
+    try {
+      // Encode only the minimal fields the booking page needs — pure ASCII, btoa-safe
+      const encode = it => {
+        const payload = {
+          itineraryId: it.itineraryId,
+          segments: (it.segments || []).map(s => ({
+            flightNumber:  s.flightNumber,
+            departureDate: s.departureDate || s.date
+          }))
+        };
+        return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      };
+      const q = new URLSearchParams({
+        itinerary:       encode(selectedOutbound),
+        returnItinerary: encode(selectedReturn),
+        cabin:           selectedOutboundCabin,
+        returnCabin:     selectedReturnCabin,
+        passengers
+      });
+      window.location.href = `booking.html?${q.toString()}`;
+    } catch (err) {
+      console.error('bookRoundTrip error:', err);
+      showToast('Could not start booking — please try again.', 'error');
+    }
+  }
+
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.className = `toast show ${type}`;
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // ── One-way sort/filter ───────────────────────────────────────────────────
+  function sortFlights(by) { currentSort = by; applyFilters(); }
+  function sortOutbound(by) {
+    outboundSort = by;
+    renderOutbound(sortedItineraries(outboundData.itineraries || [], by));
+  }
+  function sortReturn(by) {
+    returnSort = by;
+    renderReturn(sortedItineraries(rtReturnData.itineraries || [], by));
+  }
+
+  function sortedItineraries(list, by) {
+    return [...list].sort((a, b) => {
+      if (by === 'duration')   return a.durationMinutes - b.durationMinutes;
+      if (by === 'departure')  return a.segments[0].departure.localeCompare(b.segments[0].departure);
+      return minPrice(a) - minPrice(b);
+    });
+  }
+
+  function minPrice(itinerary) {
+    const prices = ['economy','business','first']
+      .map(c => itinerary.pricesPerPerson?.[c])
+      .filter(Boolean);
+    return prices.length ? Math.min(...prices) : Infinity;
+  }
+
+  function updatePriceLabel(input) {
+    document.getElementById('priceLabel').textContent = input.value >= 2000 ? '$2000+' : `$${input.value}`;
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const itineraries = [...(onewayData.itineraries || [])];
+    const maxPrice    = Number(document.getElementById('priceRange')?.value || 2000);
+    const nonstop     = document.getElementById('filterNonstop')?.checked;
+    const cabins = {
+      economy:  document.getElementById('filterEco')?.checked,
+      business: document.getElementById('filterBiz')?.checked,
+      first:    document.getElementById('filterFirst')?.checked
+    };
+
+    const filtered = itineraries.filter(it => {
+      if (nonstop && it.stopCount > 0) return false;
+      const visible = Object.entries(cabins)
+        .filter(([, on]) => on)
+        .map(([c]) => it.pricesPerPerson?.[c])
+        .filter(Boolean);
+      return visible.length && Math.min(...visible) <= maxPrice;
+    });
+
+    filtered.sort((a, b) => {
+      if (currentSort === 'duration')  return a.durationMinutes - b.durationMinutes;
+      if (currentSort === 'departure') return a.segments[0].departure.localeCompare(b.segments[0].departure);
+      return minPrice(a) - minPrice(b);
+    });
+
+    renderFlights(filtered);
+  }
+
+  function renderFlights(itineraries) {
+    const container = document.getElementById('flightResults');
+    if (!itineraries.length) { container.innerHTML = emptyHtml(); return; }
+    container.innerHTML = itineraries.map(it => onewayCardHTML(it)).join('');
+  }
+
+  function onewayCardHTML(itinerary) {
+    const first = itinerary.segments[0];
+    const last  = itinerary.segments[itinerary.segments.length - 1];
+
+    const segmentLines = itinerary.segments.map((s, i) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:${i ? '1px solid var(--gray-100)' : 'none'};">
+        <div>
+          <div style="font-family:var(--font-heading);font-size:0.78rem;font-weight:800;color:var(--dark);">${s.flightNumber} · ${s.from} → ${s.to}</div>
+          <div style="font-size:0.78rem;color:var(--gray-500);margin-top:2px;">${s.aircraft?.type || 'Aircraft TBA'}${s.aircraft?.registration ? ' · ' + s.aircraft.registration : ''}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-weight:700;color:var(--dark);">${s.departure} → ${s.arrival}</div>
+          <div style="font-size:0.75rem;color:var(--gray-500);">${s.duration}</div>
+        </div>
+      </div>`).join('');
+
+    const priceOptions = ['economy','business','first'].map(cabin => {
+      const price = itinerary.pricesPerPerson?.[cabin];
+      if (!price) return '<div></div>';
+      const p = new URLSearchParams(window.location.search);
+      p.set('cabin', cabin);
+      p.set('passengers', passengers);
+      p.set('itinerary', btoa(JSON.stringify({
+        itineraryId: itinerary.itineraryId,
+        segments: itinerary.segments.map(s => ({ flightNumber: s.flightNumber, departureDate: s.departureDate }))
+      })));
+      return `<div class="price-option">
+        <div class="price-class">${capitalise(cabin)}</div>
+        <div class="price-amount">$${price}</div>
+        <div class="price-per">per person</div>
+        <button type="button" class="btn-select js-select-itinerary"
+          data-booking-query="${encodeURIComponent(p.toString())}">Select</button>
+      </div>`;
+    }).join('');
+
+    return `<div class="flight-card">
+      <div class="flight-card-header">
+        <div class="flight-time-block">
+          <div class="flight-time">${first.departure}</div>
+          <div class="flight-airport">${first.from}</div>
+          <div class="flight-city">${onewayData.origin?.city || first.from}</div>
+        </div>
+        <div class="flight-middle">
+          <div class="flight-duration">${itinerary.duration}</div>
+          <div class="flight-line"><div class="flight-line-bar"></div>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+          </div>
+          <div class="flight-direct">${itinerary.summary}</div>
+          ${itinerary.layover ? `<div style="margin-top:6px;font-size:0.72rem;color:var(--gray-500);">Layover ${itinerary.layover}</div>` : ''}
+        </div>
+        <div class="flight-time-block right">
+          <div class="flight-time">${last.arrival}</div>
+          <div class="flight-airport">${last.to}</div>
+          <div class="flight-city">${onewayData.destination?.city || last.to}</div>
+        </div>
+      </div>
+      <div class="flight-info-row">
+        <span class="flight-info-chip">${itinerary.stopCount ? itinerary.stopCount + ' stop' : 'Non-stop'}</span>
+        <span class="flight-info-chip">${itinerary.segments.map(s => s.flightNumber).join(' / ')}</span>
+        <span class="flight-info-chip">${itinerary.date}</span>
+      </div>
+      <div style="padding:0 26px 18px;">${segmentLines}</div>
+      <div class="flight-prices">${priceOptions}</div>
+    </div>`;
+  }
+
+  // ── Utility ───────────────────────────────────────────────────────────────
+  function capitalise(v) { return v ? v.charAt(0).toUpperCase() + v.slice(1) : ''; }
+  function formatDate(v) {
+    return new Date(`${v}T12:00:00`).toLocaleDateString('en-US', {
+      weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+  }
+  function errorHtml(msg) {
+    return `<div style="text-align:center;padding:60px;color:var(--gray-400);">
+      <p style="margin-bottom:16px;">${msg || 'Could not load flights.'}</p>
+      <a href="index.html" class="btn btn-primary btn-sm">Back to Search</a>
+    </div>`;
+  }
+  function emptyHtml() {
+    return `<div style="text-align:center;padding:60px;color:var(--gray-400);">No itineraries matched your filters.</div>`;
+  }
+
+  // ── Event wiring ──────────────────────────────────────────────────────────
+  document.getElementById('navToggle')?.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  document.getElementById('flightResults')?.addEventListener('click', event => {
+    const btn = event.target.closest('.js-select-itinerary');
+    if (!btn) return;
+    const query = btn.getAttribute('data-booking-query');
+    if (query) window.location.href = `booking.html?${decodeURIComponent(query)}`;
+  });
+
+  document.getElementById('filterNonstop')?.addEventListener('change', applyFilters);
+  document.getElementById('bookRoundTripBtn')?.addEventListener('click', bookRoundTrip);
+
+  // Round-trip select buttons — use event delegation to avoid inline-onclick quoting issues
+  ['outboundResults', 'returnResults'].forEach(containerId => {
+    document.getElementById(containerId)?.addEventListener('click', e => {
+      const btn = e.target.closest('.rt-select-btn');
+      if (!btn) return;
+      try {
+        const itinerary = JSON.parse(decodeURIComponent(escape(atob(btn.dataset.itinerary))));
+        handleRtSelect(itinerary, btn.dataset.cabin, btn.dataset.leg, btn);
+      } catch (err) {
+        console.error('Could not parse itinerary from button', err);
+        showToast('Could not select this flight — please refresh and try again.', 'error');
+      }
+    });
+  });
+
+  loadResults();
+</script>
+</body>
+</html>
