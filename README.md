@@ -1,5 +1,20 @@
 # Africana Virtual Airways
 
+<p align="center">
+  <img src="apps/web/assets/img/Africana Airways With Logo.png" alt="Africana Virtual Airways" width="320"/>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/Express-4.18-000000?logo=express&logoColor=white" alt="Express"/>
+  <img src="https://img.shields.io/badge/MySQL-8+-4479A1?logo=mysql&logoColor=white" alt="MySQL"/>
+  <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript"/>
+  <img src="https://img.shields.io/badge/licença-MIT-blue" alt="Licença MIT"/>
+  <img src="https://img.shields.io/badge/estado-projeto%20académico-orange" alt="Estado"/>
+</p>
+
+---
+
 **Africana Virtual Airways** é uma plataforma web desenvolvida no âmbito da unidade curricular **Projeto de Desenvolvimento Web** da **Licenciatura em Engenharia Informática do IADE – Universidade Europeia**.
 
 O projeto consiste no desenvolvimento de uma **web application completa para reserva de voos**, inspirada em plataformas reais de companhias aéreas como Emirates ou Lufthansa. O sistema permite aos utilizadores pesquisar voos, selecionar lugares, gerir reservas e explorar informações da companhia aérea através de uma interface moderna e interativa.
@@ -10,7 +25,20 @@ O projeto segue a metodologia **Project-Based Learning (PBL)** e tem como objeti
 
 ---
 
-# Objetivo do Projeto
+## Índice
+
+- [Objetivo do Projeto](#objetivo-do-projeto)
+- [Stack Tecnológica](#stack-tecnológica)
+- [Frontend](#frontend)
+- [Backend](#backend)
+- [Screenshots](#screenshots)
+- [Quick Start](#quick-start)
+- [Equipa de Desenvolvimento](#equipa-de-desenvolvimento)
+- [Licença](#licença)
+
+---
+
+## Objetivo do Projeto
 
 O objetivo principal é desenvolver uma **plataforma web funcional para gestão e reserva de voos**, simulando os principais serviços digitais oferecidos por companhias aéreas modernas.
 
@@ -25,117 +53,167 @@ Entre os principais objetivos estão:
 
 ---
 
-# Frontend
+## Stack Tecnológica
 
-O frontend da plataforma será responsável pela **experiência do utilizador**, disponibilizando várias interfaces interativas relacionadas com a operação da companhia aérea.
+| Camada | Tecnologias |
+|---|---|
+| **Frontend** | HTML5, CSS3, JavaScript (ES6+), Leaflet, HTML5 Canvas |
+| **Backend** | Node.js 18+, Express.js 4.18 |
+| **Base de Dados** | MySQL 8+, mysql2 |
+| **Segurança** | JWT, bcryptjs, Helmet.js, express-rate-limit |
+| **APIs Externas** | VATSIM, OpenWeather, Alpha Vantage |
+| **Dev Tools** | nodemon, dotenv |
 
-## Sistema de Reserva (Booking UI)
+---
+
+## Frontend
+
+O frontend da plataforma é responsável pela **experiência do utilizador**, disponibilizando várias interfaces interativas relacionadas com a operação da companhia aérea.
+
+### Sistema de Reserva (Booking UI)
 
 Interface de pesquisa de voos que permite ao utilizador selecionar origem, destino e datas de viagem, bem como preencher os dados dos passageiros para concluir a reserva.
 
-## Mapa de Assentos Interativo
+### Mapa de Assentos Interativo
 
 Representação visual da cabine da aeronave que permite ao utilizador selecionar lugares disponíveis em tempo real.
 
-## Gestão de Reserva
+### Gestão de Reserva
 
-Portal **“Minhas Viagens”** onde os utilizadores podem inserir a referência da reserva (PNR) para consultar itinerários, detalhes do voo e estado da reserva.
+Portal **"Minhas Viagens"** onde os utilizadores podem inserir a referência da reserva (PNR) para consultar itinerários, detalhes do voo e estado da reserva.
 
-## Rede de Destinos
+### Rede de Destinos
 
 Visualização global das rotas operadas pela companhia através de um **globo interativo em 3D**, utilizando tecnologias como **Three.js** ou **WebGL**.
 
-## Galeria da Frota
+### Galeria da Frota
 
 Página responsiva dedicada à apresentação da frota da companhia aérea, organizada hierarquicamente desde aeronaves ligeiras (ex: **Cessna 172**) até aeronaves de grande capacidade como **Boeing 747** ou **Airbus A380**, incluindo especificações técnicas.
 
-## In-Flight Entertainment (IFE)
+### In-Flight Entertainment (IFE)
 
 Centro de entretenimento digital inspirado nos sistemas reais das companhias aéreas, incluindo:
 
-- leitor de vídeo para conteúdos multimédia  
+- leitor de vídeo para conteúdos multimédia
 - jogos baseados em browser desenvolvidos com **HTML5 Canvas**
 
-## Live Flight Map
+### Live Flight Map
 
 Mapa interativo que apresenta aeronaves em movimento, utilizando bibliotecas como **Leaflet** ou **Mapbox**, permitindo acompanhar rotas e posições em tempo real.
 
 ---
 
-# Backend
+## Backend
 
-O backend será responsável pela **lógica de negócio, gestão de dados e integração com serviços externos**.
+O backend é responsável pela **lógica de negócio, gestão de dados e integração com serviços externos**.
 
-## Motor de Reservas e Sistema PNR
+### Motor de Reservas e Sistema PNR
 
 Sistema responsável pela geração de **Passenger Name Records (PNR)** únicos e pela gestão das reservas efetuadas.
 
 Funcionalidades principais:
 
-- criação de reservas  
-- modificação de itinerários  
-- cancelamento de voos  
+- criação de reservas
+- modificação de itinerários
+- cancelamento de voos
 - armazenamento em **base de dados relacional (MySQL)**
 
-## Integração VATSIM & Weather API
+### Integração VATSIM & Weather API
 
 Integração com APIs externas para enriquecimento da informação de voo.
 
 Inclui:
 
-- consumo da **API VATSIM** para obtenção de voos ativos  
-- cálculo dinâmico de **ETA (Estimated Time of Arrival)**  
-- integração com **OpenWeather API** para dados meteorológicos do destino  
+- consumo da **API VATSIM** para obtenção de voos ativos
+- cálculo dinâmico de **ETA (Estimated Time of Arrival)**
+- integração com **OpenWeather API** para dados meteorológicos do destino
 
-## Gestão de Conteúdo (CMS)
+### Gestão de Conteúdo (CMS)
 
 Sistema interno responsável pela gestão dos conteúdos da plataforma, incluindo:
 
-- streaming de conteúdos de entretenimento  
-- lógica de pontuações e **high scores** para jogos do sistema IFE  
+- streaming de conteúdos de entretenimento
+- lógica de pontuações e **high scores** para jogos do sistema IFE
 
-## Backoffice Administrativo
+### Backoffice Administrativo
 
 Painel administrativo restrito que permite monitorizar e gerir o funcionamento da plataforma.
 
 Entre as funcionalidades:
 
-- monitorização de tráfego  
-- gestão de frota  
-- gestão de reservas  
-- análise estatística de utilização  
+- monitorização de tráfego
+- gestão de frota
+- gestão de reservas
+- análise estatística de utilização
 
-## Segurança e Autenticação
+### Segurança e Autenticação
 
 Implementação de mecanismos de segurança para proteger o sistema.
 
 Inclui:
 
-- autenticação de administradores  
-- proteção de rotas sensíveis da API  
-- controlo de acesso ao painel administrativo  
+- autenticação de administradores
+- proteção de rotas sensíveis da API
+- controlo de acesso ao painel administrativo
 
 ---
 
-# Equipa de Desenvolvimento
+## Screenshots
+
+| Homepage | Pesquisa de Voos |
+|:---:|:---:|
+| ![Homepage Hero](docs/screenshots/homepage-hero.png) | ![Homepage Search](docs/screenshots/homepage-search.png) |
+
+| Reserva Dados do Passageiro | Portal My Bookings |
+|:---:|:---:|
+| ![Booking](docs/screenshots/booking-passenger-details.png) | ![My Bookings](docs/screenshots/my-bookings.png) |
+
+---
+
+## Quick Start
+
+Consulta o guia completo em [`START_HERE.md`](START_HERE.md). Em resumo:
+
+**Pré-requisitos:** Node.js 18+, MySQL 8+
+
+```bash
+# 1. Configurar ambiente
+cp .env.example .env
+# (editar .env com as credenciais da base de dados e JWT_SECRET)
+
+# 2. Instalar dependências
+npm run install:api
+
+# 3. Correr a aplicação
+npm start          # produção
+npm run dev        # desenvolvimento (auto-reload)
+```
+
+A aplicação fica disponível em `http://localhost:3000`.
+
+Para mais detalhes sobre a API: [`docs/api/README.md`](docs/api/README.md)
+
+---
+
+## Equipa de Desenvolvimento
 
 Projeto desenvolvido por:
 
 **Tiago Manuel Antunes Cabaça**  
-Número de aluno: 20241185  
+Número de aluno: 20241185
 
 **César de Oliveira Rodrigues**  
-Número de aluno: 20240449  
+Número de aluno: 20240449
 
 **Muhammad Sudeis Abdul Latif Sacoor**  
-Número de aluno: 20241707  
+Número de aluno: 20241707
 
 Licenciatura em **Engenharia Informática**  
 **IADE – Universidade Europeia**
 
 ---
 
-# Licença
+## Licença
 
 Este projeto é distribuído sob a licença **MIT License**.
 
