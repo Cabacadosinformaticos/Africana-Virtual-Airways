@@ -1,140 +1,201 @@
-# Setup Guide
+# Guia de Instalação
 
-## Overview
+## Visão geral
 
-The runnable application is `apps/api`. It serves:
+A aplicação executável é `backend-php`. Serve:
 
-- The REST API under `/api/*`
-- The static website from `apps/web`
+- A REST API em `/api/*`
+- O website estático a partir de `frontend/`
 
-The backend expects a MySQL database and a repository-level `.env` file.
+O backend requer uma base de dados MySQL e um ficheiro `.env` na pasta `backend-php/`.
 
-## Requirements
+## Requisitos
 
-- Node.js 18+
-- npm
-- MySQL 8+ or a compatible server
+- PHP 8.1+
+- Composer
+- MySQL 8+ ou servidor compatível
+- Servidor web (Apache, Nginx) ou servidor embutido do PHP para desenvolvimento
 
-## Environment Setup
+## Configuração do ambiente
 
-Copy the template:
+Copiar o template:
 
 ```bash
-cp .env.example .env
+cp backend-php/.env.example backend-php/.env
 ```
 
-Then configure the following values:
+De seguida, configurar os seguintes valores:
 
-| Variable | Required | Purpose |
+| Variável | Obrigatório | Finalidade |
 | --- | --- | --- |
-| `JWT_SECRET` | Yes | Signs JWT access tokens |
-| `DB_HOST` | Yes | Database hostname or IP |
-| `DB_PORT` | Yes | Database port |
-| `DB_USER` | Yes | Database username |
-| `DB_PASSWORD` | No | Database password |
-| `DB_NAME` | Yes | Database name to create/use |
-| `PORT` | No | HTTP port for the server |
-| `NODE_ENV` | No | Runtime environment |
+| `JWT_SECRET` | Sim | Assina os tokens JWT de acesso |
+| `DB_HOST` | Sim | Nome do servidor ou IP da base de dados |
+| `DB_PORT` | Sim | Porta da base de dados (predefinição: `3306`) |
+| `DB_USER` | Sim | Nome de utilizador da base de dados |
+| `DB_PASSWORD` | Não | Palavra-passe da base de dados |
+| `DB_NAME` | Sim | Nome da base de dados a criar/utilizar (predefinição: `afv_booking`) |
 
-Optional primary admin bootstrap:
+Arranque opcional do administrador principal:
 
-| Variable | Required | Purpose |
+| Variável | Obrigatório | Finalidade |
 | --- | --- | --- |
-| `PRIMARY_ADMIN_NAME` | No | Display name of the main admin |
-| `PRIMARY_ADMIN_EMAIL` | Recommended | Email used to find or create the main admin |
-| `PRIMARY_ADMIN_PASSWORD` | Recommended | Plain password or bcrypt hash |
-| `PRIMARY_ADMIN_VATSIM_CID` | No | Optional VATSIM CID |
-| `PRIMARY_ADMIN_FLIGHT_HOURS` | No | Initial flight hours |
-| `PRIMARY_ADMIN_POINTS` | No | Initial points |
+| `PRIMARY_ADMIN_NAME` | Não | Nome de apresentação do administrador principal |
+| `PRIMARY_ADMIN_EMAIL` | Recomendado | E-mail utilizado para encontrar ou criar o administrador principal |
+| `PRIMARY_ADMIN_PASSWORD` | Recomendado | Palavra-passe em texto simples ou hash bcrypt |
+| `PRIMARY_ADMIN_VATSIM_CID` | Não | CID VATSIM opcional |
+| `PRIMARY_ADMIN_FLIGHT_HOURS` | Não | Horas de voo iniciais |
+| `PRIMARY_ADMIN_POINTS` | Não | Pontos iniciais |
 
-Optional pricing data:
+Dados de preços opcionais:
 
-| Variable | Required | Purpose |
+| Variável | Obrigatório | Finalidade |
 | --- | --- | --- |
-| `ALPHA_VANTAGE_KEY` | No | Fetches Brent crude data for pricing adjustments |
+| `ALPHA_VANTAGE_KEY` | Não | Obtém dados do Brent crude para ajustes de preço dinâmico |
 
-## Installation
+## Instalação
 
-From the repository root:
-
-```bash
-npm run install:api
-```
-
-If you prefer to work directly inside the API app:
+A partir da pasta `backend-php/`:
 
 ```bash
-cd apps/api
-npm install
+cd backend-php
+composer install
 ```
 
-## Running the Project
+## Certificados SSL (CA Bundle)
 
-From the repository root:
+O backend utiliza o ficheiro [`backend-php/cacert.pem`](../../backend-php/cacert.pem) incluído no repositório para verificar ligações HTTPS externas (API VATSIM e METAR). O ficheiro é o pacote de certificados raiz Mozilla e é referenciado automaticamente pelo código.
+
+### Windows
+
+O PHP no Windows não inclui um pacote de certificados SSL por omissão. É necessário configurar o `php.ini` para que **todas** as ligações HTTPS funcionem corretamente:
+
+1. Descobrir o caminho do `php.ini` ativo:
 
 ```bash
-npm start
+php -r "echo php_ini_loaded_file();"
 ```
 
-For development:
+2. Abrir esse ficheiro e definir as seguintes opções (ajustar o caminho conforme a instalação):
+
+```ini
+curl.cainfo = "C:\php-x.x.x\cacert.pem"
+openssl.cafile="C:\php-x.x.x\cacert.pem"
+```
+
+3. Copiar o ficheiro `cacert.pem` para esse local:
+
+```powershell
+Copy-Item "backend-php\cacert.pem" "C:\php-x.x.x\cacert.pem"
+```
+
+4. Reiniciar o servidor PHP.
+
+### Linux / macOS
+
+Nenhuma configuração adicional necessária. O sistema operativo disponibiliza o pacote de certificados automaticamente.
+
+## Executar o projeto
+
+### Servidor embutido do PHP (desenvolvimento)
 
 ```bash
-npm run dev
+cd backend-php
+php -S localhost:8080 -t public
 ```
 
-The default URL is `http://localhost:3000`.
+A URL predefinida é `http://localhost:8080`.
 
-## What Happens on Startup
+### Apache / Nginx (produção)
 
-The API startup flow is implemented in [`apps/api/src/server.js`](D:/Escola/projetos-do-git/IADE_AFVsite-master/apps/api/src/server.js) and [`apps/api/src/repositories/database.js`](D:/Escola/projetos-do-git/IADE_AFVsite-master/apps/api/src/repositories/database.js).
+Configurar o servidor web para apontar o `document root` para `backend-php/public/`. O ficheiro `backend-php/public/.htaccess` já inclui as regras de reescrita necessárias para o Apache.
 
-On startup, the application:
+## O que acontece no arranque
 
-1. Loads `.env` from the repository root.
-2. Connects to MySQL and creates the configured database if needed.
-3. Runs the SQL schema from [`database/schema/mysql.sql`](D:/Escola/projetos-do-git/IADE_AFVsite-master/database/schema/mysql.sql).
-4. Applies code-level compatibility checks for some columns and indexes.
-5. Seeds airports, aircraft, route schedules, and airline stats if the database is empty.
-6. Creates or updates the primary admin account if bootstrap variables are present.
-7. Starts the HTTP server and serves `apps/web`.
+O fluxo de arranque da aplicação está implementado em [`backend-php/public/index.php`](../../backend-php/public/index.php) e [`backend-php/src/Repositories/Database.php`](../../backend-php/src/Repositories/Database.php).
 
-## First Admin Access
+No arranque, a aplicação:
 
-There is no hard-coded default admin account in the current implementation.
+1. Carrega `.env` a partir de `backend-php/`.
+2. Liga-se ao MySQL e cria a base de dados configurada se necessário.
+3. Executa o schema SQL a partir de [`database/mysql.sql`](../../database/mysql.sql).
+4. Aplica verificações de compatibilidade ao nível do código para algumas colunas e índices.
+5. Inicializa aeroportos, aeronaves, horários de rotas e estatísticas da companhia se a base de dados estiver vazia.
+6. Cria ou atualiza a conta do administrador principal se as variáveis de arranque estiverem presentes.
+7. Inicia o servidor HTTP Slim 4.
 
-To guarantee admin access on a fresh environment, set:
+## Primeiro acesso de administrador
+
+Não existe nenhuma conta de administrador predefinida implementada no código.
+
+Para garantir acesso de administrador num ambiente novo, definir:
 
 - `PRIMARY_ADMIN_EMAIL`
 - `PRIMARY_ADMIN_PASSWORD`
 
-At startup, the app will either:
+No arranque, a aplicação irá:
 
-- create that user as the primary admin, or
-- update the existing matching user and elevate it to primary admin
+- criar esse utilizador como administrador principal, ou
+- atualizar o utilizador existente correspondente e elevá-lo a administrador principal
 
-## Troubleshooting
+## Resolução de problemas
 
-### Server exits during startup
+### O servidor termina durante o arranque
 
-Check:
+Verificar:
 
-- MySQL is running
-- The `.env` database credentials are correct
-- The configured user has permission to create or access the target database
+- O MySQL está em execução
+- As credenciais da base de dados em `.env` estão corretas
+- O utilizador configurado tem permissão para criar ou aceder à base de dados pretendida
 
-### Website loads but API calls fail
+### O website carrega mas as chamadas à API falham
 
-Check:
+Verificar:
 
-- The backend started without database errors
-- `http://localhost:3000/api/health` returns a valid JSON response
+- O backend arrancou sem erros de base de dados
+- `http://localhost:8080/api/health` devolve uma resposta JSON válida
 
-### No admin account exists
+### A página Live VATSIM mostra 0 pilotos mesmo havendo pilotos online
 
-Set `PRIMARY_ADMIN_EMAIL` and `PRIMARY_ADMIN_PASSWORD`, then restart the server.
+Em Windows, isto indica normalmente um problema com os certificados SSL do PHP, que impede o backend de comunicar com `data.vatsim.net` e `aviationweather.gov`.
 
-## Current Limitations
+Verificar:
 
-- `apps/admin` is not yet a standalone runnable app.
-- Root-level `tests/` folders are placeholders.
-- `database/migrations` and `database/seeds` are reserved for future expansion and are not yet part of the runtime flow.
+- O ficheiro `backend-php/cacert.pem` está presente (executar `git pull` se necessário)
+- As opções `curl.cainfo` e `openssl.cafile` estão definidas no `php.ini` (ver secção [Certificados SSL](#certificados-ssl-ca-bundle))
+- O servidor PHP foi reiniciado após alterações ao `php.ini`
+
+Para confirmar que o PHP consegue comunicar com o VATSIM após a correção:
+
+```bash
+php -r "
+\$ch = curl_init('https://data.vatsim.net/v3/vatsim-data.json');
+curl_setopt(\$ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt(\$ch, CURLOPT_TIMEOUT, 8);
+\$body = curl_exec(\$ch);
+echo curl_error(\$ch) ?: 'OK — ' . strlen(\$body) . ' bytes';
+curl_close(\$ch);
+"
+```
+
+### Não existe nenhuma conta de administrador
+
+Definir `PRIMARY_ADMIN_EMAIL` e `PRIMARY_ADMIN_PASSWORD` e reiniciar o servidor.
+
+## Estrutura da base de dados
+
+O schema completo encontra-se em [`database/mysql.sql`](../../database/mysql.sql).
+
+Tabelas principais:
+
+| Tabela | Finalidade |
+| --- | --- |
+| `users` | Contas de utilizadores |
+| `aircraft` | Frota de aeronaves |
+| `airports` | Dados de aeroportos |
+| `routes` | Rotas de voo |
+| `route_schedules` | Horários e números de voo |
+| `bookings` | Reservas |
+| `booking_passengers` | Detalhes dos passageiros por reserva |
+| `booking_segments` | Segmentos do itinerário por reserva |
+| `booked_seats` | Ocupação de lugares por voo e data |
+| `airline_stats` | Perfil e estatísticas da companhia aérea |

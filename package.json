@@ -2,10 +2,5 @@
   "name": "africana-virtual-airways",
   "version": "1.0.0",
   "private": true,
-  "description": "Africana Virtual Airways — VATSIM virtual airline monorepo",
-  "scripts": {
-    "start": "cd apps/api && npm start",
-    "dev": "cd apps/api && npm run dev",
-    "install:api": "cd apps/api && npm install"
-  }
+  "description": "Africana Virtual Airways — VATSIM virtual airline monorepo"
 }

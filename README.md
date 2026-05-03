@@ -1,7 +1,7 @@
 # Africana Virtual Airways
 
 <p align="center">
-  <img src="apps/web/assets/img/Africana Airways With Logo.png" alt="Africana Virtual Airways" width="320"/>
+  <img src="docs/logo/Africana Airways With Logo.png" alt="Africana Virtual Airways" width="320"/>
 </p>
 
 <p align="center">

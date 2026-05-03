@@ -1,0 +1,344 @@
+[
+  {
+    "id": 1,
+    "registration": "7T-EMA",
+    "type": "Embraer 190",
+    "category": "Regional",
+    "hub": "DAAG",
+    "hub_name": "Algiers",
+    "seats": { "economy": 96, "business": 0, "first": 0 },
+    "seatMap": {
+      "economy": { "rows": 32, "seatsPerRow": 3, "config": "3" },
+      "business": null,
+      "first": null
+    },
+    "range_km": 4537,
+    "cruise_speed_kmh": 870,
+    "status": "active",
+    "image": "/assets/img/fleet/7T-EMA.jpg",
+    "description": "The Embraer 190 is Africana's workhorse for North African regional routes. Seating 96 passengers in a comfortable all-economy configuration, it connects Algiers to key Mediterranean and Saharan destinations with efficiency and reliability."
+  },
+  {
+    "id": 2,
+    "registration": "7T-TQY",
+    "type": "Airbus A340-600",
+    "category": "Long Range",
+    "hub": "DAAG",
+    "hub_name": "Algiers",
+    "seats": { "economy": 247, "business": 56, "first": 8 },
+    "seatMap": {
+      "first": { "rows": 2, "seatsPerRow": 4, "config": "1-2-1" },
+      "business": { "rows": 14, "seatsPerRow": 6, "config": "2-2-2" },
+      "economy": { "rows": 57, "seatsPerRow": 10, "config": "3-4-3" }
+    },
+    "range_km": 14600,
+    "cruise_speed_kmh": 905,
+    "status": "active",
+    "image": "/assets/img/fleet/7T-TQY.png",
+    "description": "The majestic Airbus A340-600 is the crown jewel of Africana's Algiers fleet. With four powerful engines and ultra-long range, this flagship aircraft connects North Africa to the Americas and Far East in unrivalled style and comfort."
+  },
+  {
+    "id": 3,
+    "registration": "7T-TSX",
+    "type": "Boeing 787-9 Dreamliner",
+    "category": "Long Range",
+    "hub": "DAAG",
+    "hub_name": "Algiers",
+    "seats": { "economy": 204, "business": 42, "first": 0 },
+    "seatMap": {
+      "business": { "rows": 6, "seatsPerRow": 7, "config": "2-2-2" },
+      "economy": { "rows": 34, "seatsPerRow": 9, "config": "3-3-3" },
+      "first": null
+    },
+    "range_km": 14140,
+    "cruise_speed_kmh": 903,
+    "status": "active",
+    "image": "/assets/img/fleet/7T-TSX.jpg",
+    "description": "Africana's Boeing 787-9 Dreamliner brings next-generation technology to long-haul operations from Algiers. Composite materials, improved cabin pressure and LED mood lighting give passengers an elevated experience on intercontinental journeys."
+  },
+  {
+    "id": 4,
+    "registration": "7T-MSS",
+    "type": "McDonnell Douglas MD-11",
+    "category": "Long Range",
+    "hub": "DAAG",
+    "hub_name": "Algiers",
+    "seats": { "economy": 285, "business": 56, "first": 16 },
+    "seatMap": {
+      "first": { "rows": 4, "seatsPerRow": 4, "config": "1-2-1" },
+      "business": { "rows": 14, "seatsPerRow": 8, "config": "2-2-2" },
+      "economy": { "rows": 57, "seatsPerRow": 10, "config": "3-4-3" }
+    },
+    "range_km": 12455,
+    "cruise_speed_kmh": 945,
+    "status": "active",
+    "image": "/assets/img/fleet/7T-MSS.jpg",
+    "description": "A classic of aviation history, the MD-11 continues to serve Africana with distinction. Its three powerful engines and spacious cabin make it ideal for high-capacity routes, carrying a touch of golden-era aviation elegance into the modern world."
+  },
+  {
+    "id": 5,
+    "registration": "C9-EAA",
+    "type": "Embraer 175",
+    "category": "Regional",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 76, "business": 0, "first": 0 },
+    "seatMap": {
+      "economy": { "rows": 19, "seatsPerRow": 4, "config": "2-2" },
+      "business": null,
+      "first": null
+    },
+    "range_km": 3735,
+    "cruise_speed_kmh": 870,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-EAA.jpg",
+    "description": "The Embraer 175 is Africana's primary regional connector in Mozambique. Perfectly sized for shorter domestic routes, it brings reliable connectivity to communities from Maputo north along the Mozambican coast."
+  },
+  {
+    "id": 6,
+    "registration": "C9-RJA",
+    "type": "Bombardier CRJ900",
+    "category": "Regional",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 90, "business": 0, "first": 0 },
+    "seatMap": {
+      "economy": { "rows": 30, "seatsPerRow": 3, "config": "3" },
+      "business": null,
+      "first": null
+    },
+    "range_km": 2876,
+    "cruise_speed_kmh": 830,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-RJA.png",
+    "description": "The CRJ900 provides agile regional connectivity within Southern Africa. Its narrow-body design allows access to smaller airfields, making it ideal for serving destinations like Vilankulo and Inhambane where larger aircraft cannot operate."
+  },
+  {
+    "id": 7,
+    "registration": "C9-RJB",
+    "type": "Bombardier Dash 8 Q400",
+    "category": "Regional",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 78, "business": 0, "first": 0 },
+    "seatMap": {
+      "economy": { "rows": 19, "seatsPerRow": 4, "config": "2-2" },
+      "business": null,
+      "first": null
+    },
+    "range_km": 2040,
+    "cruise_speed_kmh": 667,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-RJB.png",
+    "description": "With turboprop efficiency, the Dash 8 Q400 offers economical service on shorter regional hops. Its ability to operate from unpaved strips makes it invaluable for reaching remote Mozambican destinations that jets cannot serve."
+  },
+  {
+    "id": 8,
+    "registration": "C9-AFV",
+    "type": "Boeing 737-800",
+    "category": "Short Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 162, "business": 0, "first": 0 },
+    "seatMap": {
+      "economy": { "rows": 27, "seatsPerRow": 6, "config": "3-3" },
+      "business": null,
+      "first": null
+    },
+    "range_km": 5765,
+    "cruise_speed_kmh": 842,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-AFV.png",
+    "description": "C9-AFV is the first 737-800 to carry the Africana livery. Named after the airline itself, this Boeing workhorse serves medium-haul routes across Southern and East Africa, combining proven reliability with comfortable passenger amenities."
+  },
+  {
+    "id": 9,
+    "registration": "C9-AFW",
+    "type": "Boeing 737-800",
+    "category": "Short Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 162, "business": 0, "first": 0 },
+    "seatMap": {
+      "economy": { "rows": 27, "seatsPerRow": 6, "config": "3-3" },
+      "business": null,
+      "first": null
+    },
+    "range_km": 5765,
+    "cruise_speed_kmh": 842,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-AFW.png",
+    "description": "The second of Africana's 737-800 pair, C9-AFW often operates in tandem with C9-AFV to provide high-frequency service on popular regional routes. Together they form the reliable backbone of Africana's short-to-medium haul network."
+  },
+  {
+    "id": 10,
+    "registration": "C9-CAB",
+    "type": "Airbus A320neo",
+    "category": "Short Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 150, "business": 12, "first": 0 },
+    "seatMap": {
+      "business": { "rows": 2, "seatsPerRow": 6, "config": "2-2-2" },
+      "economy": { "rows": 25, "seatsPerRow": 6, "config": "3-3" },
+      "first": null
+    },
+    "range_km": 6300,
+    "cruise_speed_kmh": 833,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-CAB.jpg",
+    "description": "The A320neo represents the pinnacle of single-aisle efficiency. With LEAP engines cutting fuel burn by 20%, C9-CAB brings environmental responsibility to Africana's short-haul operations while offering a premium business class section on key routes."
+  },
+  {
+    "id": 11,
+    "registration": "C9-CAC",
+    "type": "Airbus A320neo",
+    "category": "Short Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 150, "business": 12, "first": 0 },
+    "seatMap": {
+      "business": { "rows": 2, "seatsPerRow": 6, "config": "2-2-2" },
+      "economy": { "rows": 25, "seatsPerRow": 6, "config": "3-3" },
+      "first": null
+    },
+    "range_km": 6300,
+    "cruise_speed_kmh": 833,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-CAC.jpg",
+    "description": "C9-CAC joins its sister aircraft C9-CAB in offering next-generation efficiency across Africa. Deployed primarily on routes to Harare, Nairobi and Johannesburg, this neo-engine aircraft sets a new standard for regional air travel."
+  },
+  {
+    "id": 12,
+    "registration": "C9-AIA",
+    "type": "Airbus A330-900neo",
+    "category": "Long Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 287, "business": 32, "first": 0 },
+    "seatMap": {
+      "business": { "rows": 8, "seatsPerRow": 8, "config": "1-2-1" },
+      "economy": { "rows": 41, "seatsPerRow": 9, "config": "3-3-3" },
+      "first": null
+    },
+    "range_km": 13334,
+    "cruise_speed_kmh": 912,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-AIA.png",
+    "description": "The A330-900neo is Africana's premier wide-body, offering intercontinental range with remarkable fuel efficiency. C9-AIA connects Maputo to Singapore and beyond, featuring a thoughtfully designed cabin with lie-flat business class seats."
+  },
+  {
+    "id": 13,
+    "registration": "C9-AJA",
+    "type": "Airbus A380-800",
+    "category": "Long Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 420, "business": 76, "first": 14 },
+    "seatMap": {
+      "first": { "rows": 2, "seatsPerRow": 7, "config": "1-2-1-1-1-1" },
+      "business": { "rows": 10, "seatsPerRow": 8, "config": "1-2-2-1-1-1" },
+      "economy": { "rows": 70, "seatsPerRow": 10, "config": "3-4-3" }
+    },
+    "range_km": 15200,
+    "cruise_speed_kmh": 903,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-AJA.jpg",
+    "description": "The crown jewel of Africana's entire fleet — the superjumbo Airbus A380. C9-AJA is Sub-Saharan Africa's first A380 operation, making history with every departure from Maputo. The double-deck widebody carries up to 510 passengers in three cabins to global metropolises."
+  },
+  {
+    "id": 14,
+    "registration": "C9-AXA",
+    "type": "Airbus A350-900",
+    "category": "Long Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 253, "business": 42, "first": 0 },
+    "seatMap": {
+      "business": { "rows": 6, "seatsPerRow": 7, "config": "1-2-1-1-1-1" },
+      "economy": { "rows": 41, "seatsPerRow": 9, "config": "3-3-3" },
+      "first": null
+    },
+    "range_km": 15000,
+    "cruise_speed_kmh": 910,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-AXA.jpg",
+    "description": "Built from 70% composite materials, the A350-900 is a masterpiece of modern engineering. C9-AXA delivers ultra-long-range performance with a whisper-quiet cabin, ideal for Africana's overnight flights to Melbourne and intercontinental operations."
+  },
+  {
+    "id": 15,
+    "registration": "C9-BAA",
+    "type": "Boeing 777-300ER",
+    "category": "Long Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 300, "business": 42, "first": 8 },
+    "seatMap": {
+      "first": { "rows": 2, "seatsPerRow": 4, "config": "1-2-1" },
+      "business": { "rows": 6, "seatsPerRow": 8, "config": "1-2-1" },
+      "economy": { "rows": 50, "seatsPerRow": 10, "config": "3-4-3" }
+    },
+    "range_km": 13649,
+    "cruise_speed_kmh": 905,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-BAA.jpg",
+    "description": "The Boeing 777-300ER is one of the most trusted long-haul aircraft in commercial aviation. C9-BAA brings proven performance to Africana's flagship routes, featuring a premium first class suite and spacious business class on intercontinental services."
+  },
+  {
+    "id": 16,
+    "registration": "C9-BAB",
+    "type": "Boeing 777-300ER",
+    "category": "Long Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 300, "business": 42, "first": 8 },
+    "seatMap": {
+      "first": { "rows": 2, "seatsPerRow": 4, "config": "1-2-1" },
+      "business": { "rows": 6, "seatsPerRow": 8, "config": "1-2-1" },
+      "economy": { "rows": 50, "seatsPerRow": 10, "config": "3-4-3" }
+    },
+    "range_km": 13649,
+    "cruise_speed_kmh": 905,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-BAB.jpg",
+    "description": "Sister aircraft to C9-BAA, the second Triple Seven gives Africana high-frequency capacity on its most popular long-haul routes. Together they operate Maputo's flagship services to Dubai, ensuring daily connections to the Arabian Gulf."
+  },
+  {
+    "id": 17,
+    "registration": "C9-BQA",
+    "type": "Boeing 747-8",
+    "category": "Long Range",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 364, "business": 48, "first": 14 },
+    "seatMap": {
+      "first": { "rows": 2, "seatsPerRow": 7, "config": "1-2-1-1-1-1" },
+      "business": { "rows": 8, "seatsPerRow": 8, "config": "1-2-1-1-1-1" },
+      "economy": { "rows": 52, "seatsPerRow": 10, "config": "3-4-3" }
+    },
+    "range_km": 14816,
+    "cruise_speed_kmh": 903,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-BQA.jpg",
+    "description": "The iconic Queen of the Skies in her latest evolution. C9-BQA is Africana's Boeing 747-8, combining the timeless silhouette of the hump-backed jumbo with modern GEnx engines and a stretched fuselage for maximum capacity on ultra-long routes."
+  },
+  {
+    "id": 18,
+    "registration": "C9-EAB",
+    "type": "Embraer 190",
+    "category": "Regional",
+    "hub": "FQMA",
+    "hub_name": "Maputo",
+    "seats": { "economy": 96, "business": 0, "first": 0 },
+    "seatMap": {
+      "economy": { "rows": 32, "seatsPerRow": 3, "config": "3" },
+      "business": null,
+      "first": null
+    },
+    "range_km": 4537,
+    "cruise_speed_kmh": 870,
+    "status": "active",
+    "image": "/assets/img/fleet/C9-EAB.jpg",
+    "description": "The second Embraer 190 in the Maputo fleet, C9-EAB provides regional connectivity across Mozambique and neighbouring countries. Operating alongside C9-EAA, it ensures reliable twice-daily coverage on key domestic trunk routes."
+  }
+]
