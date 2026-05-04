@@ -5,8 +5,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white" alt="Node.js"/>
-  <img src="https://img.shields.io/badge/Express-4.18-000000?logo=express&logoColor=white" alt="Express"/>
+  <img src="https://img.shields.io/badge/PHP-8.1+-777BB4?logo=php&logoColor=white" alt="PHP"/>
+  <img src="https://img.shields.io/badge/Slim-4-74a045?logo=slim&logoColor=white" alt="Slim 4"/>
   <img src="https://img.shields.io/badge/MySQL-8+-4479A1?logo=mysql&logoColor=white" alt="MySQL"/>
   <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript"/>
   <img src="https://img.shields.io/badge/licença-MIT-blue" alt="Licença MIT"/>
@@ -58,11 +58,11 @@ Entre os principais objetivos estão:
 | Camada | Tecnologias |
 |---|---|
 | **Frontend** | HTML5, CSS3, JavaScript (ES6+), Leaflet, HTML5 Canvas |
-| **Backend** | Node.js 18+, Express.js 4.18 |
-| **Base de Dados** | MySQL 8+, mysql2 |
-| **Segurança** | JWT, bcryptjs, Helmet.js, express-rate-limit |
+| **Backend** | PHP 8.1, Slim 4 |
+| **Base de Dados** | MySQL 8+ |
+| **Segurança** | JWT (firebase/php-jwt), phpdotenv |
 | **APIs Externas** | VATSIM, OpenWeather, Alpha Vantage |
-| **Dev Tools** | nodemon, dotenv |
+| **Dev Tools** | Composer, PHP built-in server |
 
 ---
 
@@ -172,21 +172,20 @@ Inclui:
 
 ## Quick Start
 
-Consulta o guia completo em [`START_HERE.md`](START_HERE.md). Em resumo:
-
-**Pré-requisitos:** Node.js 18+, MySQL 8+
+**Pré-requisitos:** PHP 8.1+, Composer, MySQL 8+
 
 ```bash
 # 1. Configurar ambiente
 cp .env.example .env
 # (editar .env com as credenciais da base de dados e JWT_SECRET)
 
-# 2. Instalar dependências
-npm run install:api
+# 2. Instalar dependências PHP
+cd backend-php
+composer install
 
 # 3. Correr a aplicação
-npm start          # produção
-npm run dev        # desenvolvimento (auto-reload)
+cd ..
+php -S localhost:3000 router.php
 ```
 
 A aplicação fica disponível em `http://localhost:3000`.
