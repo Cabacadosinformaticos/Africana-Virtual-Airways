@@ -1,0 +1,376 @@
+/* ═══════════════════════════════════════════════════════════════
+   Africana Airways — Accessibility / Large-Text Mode
+   All rules are scoped to body.accessibility-mode so they only
+   activate when the user has enabled the mode.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Toggle button (visible at all times in the navbar) ────────── */
+.btn-accessibility {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  min-height: 38px;
+  background: transparent;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-accessibility:hover {
+  border-color: var(--red-400);
+  color: var(--red-600);
+  background: rgba(224, 32, 64, 0.05);
+}
+
+.btn-accessibility svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.navbar.transparent .btn-accessibility {
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.navbar.transparent .btn-accessibility:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Active / on state */
+body.accessibility-mode .btn-accessibility {
+  background: var(--red-50);
+  border-color: var(--red-500);
+  color: var(--red-700);
+  box-shadow: 0 0 0 2px rgba(204, 31, 54, 0.15);
+}
+
+body.accessibility-mode .navbar.transparent .btn-accessibility {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.9);
+  color: var(--white);
+}
+
+/* ─── Base font & spacing ───────────────────────────────────────── */
+body.accessibility-mode {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* ─── Typography scale-up ───────────────────────────────────────── */
+body.accessibility-mode h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+body.accessibility-mode h2 { font-size: clamp(1.9rem, 3.2vw, 3rem); }
+body.accessibility-mode h3 { font-size: clamp(1.3rem, 2.2vw, 1.85rem); }
+body.accessibility-mode p  { font-size: 1.05rem; line-height: 1.85; }
+
+/* ─── Navigation bar ────────────────────────────────────────────── */
+body.accessibility-mode .nav-inner {
+  height: 90px;
+}
+
+body.accessibility-mode .logo-img {
+  max-height: 42px;
+}
+
+body.accessibility-mode .nav-links a {
+  font-size: 0.8rem;
+  padding: 10px 14px;
+  min-height: 54px;
+  gap: 9px;
+}
+
+body.accessibility-mode .nav-links a svg {
+  width: 18px;
+  height: 18px;
+}
+
+body.accessibility-mode .btn-nav-login,
+body.accessibility-mode .btn-nav-book {
+  min-height: 52px;
+  padding: 10px 24px;
+  font-size: 0.85rem;
+}
+
+/* Bump the page offset when the nav grows taller */
+body.accessibility-mode .hero { padding-top: 90px; }
+body.accessibility-mode .booking-topbar { margin-top: 90px; }
+body.accessibility-mode .page-hero { padding-top: 130px; }
+body.accessibility-mode .filters-panel { top: 106px; }
+
+/* Mobile nav items */
+@media (max-width: 768px) {
+  body.accessibility-mode .nav-inner { height: 76px; }
+  body.accessibility-mode .hero { padding-top: 76px; }
+  body.accessibility-mode .booking-topbar { margin-top: 76px; }
+
+  body.accessibility-mode .nav-links.open a {
+    font-size: 1.1rem;
+    padding: 16px 20px;
+    min-height: 62px;
+  }
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────── */
+body.accessibility-mode .btn {
+  padding: 18px 36px;
+  font-size: 1rem;
+  min-height: 60px;
+  border-radius: var(--radius-md);
+  letter-spacing: 0.05em;
+}
+
+body.accessibility-mode .btn-sm {
+  padding: 12px 22px;
+  font-size: 0.9rem;
+  min-height: 50px;
+}
+
+body.accessibility-mode .btn-lg {
+  padding: 22px 48px;
+  font-size: 1.1rem;
+  min-height: 68px;
+}
+
+body.accessibility-mode .btn-search {
+  min-height: 68px;
+  font-size: 1rem;
+  padding: 0 36px;
+}
+
+body.accessibility-mode .btn-search svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ─── Form controls ─────────────────────────────────────────────── */
+body.accessibility-mode .form-control {
+  min-height: 64px;
+  padding: 16px 20px;
+  font-size: 1.05rem;
+  border-width: 2px;
+  border-radius: 14px;
+}
+
+body.accessibility-mode .form-control:focus {
+  box-shadow: 0 0 0 4px rgba(204, 31, 54, 0.2);
+}
+
+body.accessibility-mode .form-group {
+  gap: 10px;
+}
+
+body.accessibility-mode .form-group label {
+  font-size: 0.82rem;
+  letter-spacing: 0.09em;
+}
+
+/* ─── Airport autocomplete dropdown ─────────────────────────────── */
+body.accessibility-mode .ac-item {
+  padding: 14px 18px;
+  gap: 14px;
+}
+
+body.accessibility-mode .ac-item-icao {
+  font-size: 0.9rem;
+  padding: 4px 10px;
+  min-width: 54px;
+}
+
+body.accessibility-mode .ac-item-city {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+body.accessibility-mode .ac-item-country {
+  font-size: 0.88rem;
+}
+
+/* ─── Search widget ─────────────────────────────────────────────── */
+body.accessibility-mode .search-widget {
+  padding: 36px 36px 32px;
+}
+
+body.accessibility-mode .search-widget-title {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+body.accessibility-mode .search-widget-text {
+  font-size: 1.05rem;
+}
+
+body.accessibility-mode .surface-tab {
+  min-height: 54px;
+  font-size: 0.84rem;
+  padding: 0 22px;
+}
+
+body.accessibility-mode .surface-tab svg {
+  width: 20px;
+  height: 20px;
+}
+
+body.accessibility-mode .search-inline-field {
+  padding: 10px 16px;
+}
+
+body.accessibility-mode .search-inline-field span {
+  font-size: 0.8rem;
+}
+
+body.accessibility-mode .search-inline-field input {
+  font-size: 1.1rem;
+  width: 56px;
+}
+
+/* ─── Section spacing ───────────────────────────────────────────── */
+body.accessibility-mode .section { padding: 112px 0; }
+
+/* ─── Feature / info cards ──────────────────────────────────────── */
+body.accessibility-mode .feature-card {
+  padding: 40px 32px;
+}
+
+body.accessibility-mode .feature-icon {
+  width: 64px;
+  height: 64px;
+}
+
+body.accessibility-mode .feature-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+body.accessibility-mode .feature-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+body.accessibility-mode .feature-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+/* ─── Hero stats ────────────────────────────────────────────────── */
+body.accessibility-mode .hero-stat-num {
+  font-size: 2.4rem;
+}
+
+body.accessibility-mode .hero-stat-label {
+  font-size: 0.85rem;
+}
+
+/* ─── CTA / VATSIM banner ───────────────────────────────────────── */
+body.accessibility-mode .cta-info h2,
+body.accessibility-mode .vatsim-info h2 {
+  font-size: 2.2rem;
+}
+
+body.accessibility-mode .cta-info p,
+body.accessibility-mode .vatsim-info p {
+  font-size: 1.05rem;
+}
+
+/* ─── Footer ────────────────────────────────────────────────────── */
+body.accessibility-mode .footer-links {
+  gap: 14px;
+}
+
+body.accessibility-mode .footer-links a {
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+body.accessibility-mode .footer-col h4 {
+  font-size: 0.82rem;
+  margin-bottom: 22px;
+}
+
+body.accessibility-mode .footer-social-link {
+  width: 44px;
+  height: 44px;
+}
+
+body.accessibility-mode .footer-social-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+body.accessibility-mode .footer-desc {
+  font-size: 1rem;
+}
+
+/* ─── Toast ─────────────────────────────────────────────────────── */
+body.accessibility-mode .toast {
+  font-size: 1rem;
+  padding: 18px 24px;
+  max-width: 400px;
+  border-left-width: 6px;
+}
+
+/* ─── Focus indicators (high-visibility outlines) ───────────────── */
+body.accessibility-mode *:focus-visible {
+  outline: 3px solid var(--red-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+body.accessibility-mode a:focus-visible,
+body.accessibility-mode button:focus-visible {
+  outline: 3px solid var(--red-500);
+  outline-offset: 4px;
+}
+
+/* ─── Booking progress bar ──────────────────────────────────────── */
+body.accessibility-mode .booking-progress-step {
+  font-size: 0.88rem;
+  gap: 12px;
+}
+
+body.accessibility-mode .booking-progress-index {
+  width: 36px;
+  height: 36px;
+  font-size: 0.85rem;
+}
+
+/* ─── Destination cards ─────────────────────────────────────────── */
+body.accessibility-mode .destination-card .card-city {
+  font-size: 1.5rem;
+}
+
+body.accessibility-mode .destination-card .card-country {
+  font-size: 0.95rem;
+}
+
+body.accessibility-mode .destination-card .card-price {
+  font-size: 0.95rem;
+  padding: 6px 16px;
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  body.accessibility-mode * {
+    transition-duration: 0.12s !important;
+    animation-duration: 0.2s !important;
+  }
+
+  body.accessibility-mode .destination-card:hover,
+  body.accessibility-mode .feature-card:hover {
+    transform: translateY(-3px);
+  }
+
+  body.accessibility-mode .btn-search:hover,
+  body.accessibility-mode .btn-primary:hover {
+    transform: translateY(-1px);
+  }
+}

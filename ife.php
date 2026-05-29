@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>In-Flight Entertainment | Africana Airways</title>
+  <meta name="description" content="Africana Airways In-Flight Entertainment. Log in with your booking reference to access games, movies and more." />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/accessibility.css" />
+  <link rel="stylesheet" href="assets/css/ife.css" />
+</head>
+<body class="ife-page">
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.php" class="nav-logo">
+      <img src="assets/img/Africana Airways With Logo.png" alt="Africana Airways" class="logo-img" />
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Home
+      </a></li>
+      <li><a href="routes.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        Routes
+      </a></li>
+      <li><a href="fleet.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Fleet
+      </a></li>
+      <li><a href="vatsim.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.5l-8.2-2.73V6.5a1.8 1.8 0 0 0-3.6 0v7.27L2 16.5v2l8.2-1.3V21l-2.4 1.5V24l4.2-1 4.2 1v-1.5L13.8 21v-3.8l8.2 1.3z"/></svg>
+        Live
+      </a></li>
+      <li><a href="ife.php" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Entertainment
+      </a></li>
+      <li><a href="about.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        About
+      </a></li>
+      <li><a href="booking.php" class="nav-link-book">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        Book Now
+      </a></li>
+      <li><a href="my-bookings.php" class="nav-link-portal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v14H4z"/><path d="M8 2v8M16 2v8M7 11h10M7 15h6"/></svg>
+        My Bookings
+      </a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════ LOGIN OVERLAY ═══════════════ -->
+<div class="ife-login-overlay" id="ifeLoginOverlay">
+  <div class="ife-login-card">
+
+    <div class="ife-login-brand">
+      <div class="ife-login-brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4"/>
+        </svg>
+      </div>
+      <span class="ife-login-brand-text">In-Flight Entertainment</span>
+    </div>
+
+    <h1 class="ife-login-title">Welcome Aboard</h1>
+    <p class="ife-login-sub">Enter your booking reference and email to access your personalised entertainment.</p>
+
+    <form id="ifeLoginForm" autocomplete="off">
+      <div class="ife-field">
+        <label for="ifeRef_input">Booking Reference</label>
+        <input
+          type="text"
+          id="ifeRef_input"
+          placeholder="e.g. AFVX1Y2Z3"
+          maxlength="9"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="ife-field">
+        <label for="ifeEmail_input">Passenger Email</label>
+        <input
+          type="email"
+          id="ifeEmail_input"
+          placeholder="email@example.com"
+          autocomplete="off"
+        />
+      </div>
+
+      <button type="submit" class="ife-login-btn" id="ifeLoginBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Board Now
+      </button>
+
+      <div class="ife-login-error" id="ifeLoginError"></div>
+    </form>
+
+  </div>
+</div>
+
+<!-- ═══════════════ IFE CONTENT ═══════════════ -->
+<div class="ife-content" id="ifeContent">
+
+  <!-- Flight header bar -->
+  <div class="ife-flight-bar">
+    <div class="ife-flight-greeting">
+      <span class="ife-greeting-label">Welcome</span>
+      <span class="ife-greeting-name" id="ifePassengerName">Passenger</span>
+    </div>
+
+    <div class="ife-flight-route">
+      <span class="ife-route-code" id="ifeFrom">-</span>
+      <div class="ife-route-arrow">
+        <div class="ife-route-arrow-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-1M16 21a2 2 0 100-4 2 2 0 000 4zM7 21a2 2 0 100-4 2 2 0 000 4z"/>
+          </svg>
+        </div>
+        <span class="ife-route-label">your flight</span>
+      </div>
+      <span class="ife-route-code" id="ifeTo">-</span>
+    </div>
+
+    <div class="ife-flight-meta">
+      <div class="ife-meta-item">
+        <span class="ife-meta-label">Flight</span>
+        <span class="ife-meta-value" id="ifeFlightNo">-</span>
+      </div>
+      <div class="ife-meta-item">
+        <span class="ife-meta-label">Cabin</span>
+        <span class="ife-meta-value" id="ifeCabin">-</span>
+      </div>
+      <div class="ife-meta-item">
+        <span class="ife-meta-label">Ref</span>
+        <span class="ife-meta-value" id="ifeRef">-</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="ife-tabs surface-tabs surface-tabs--compact">
+    <button class="ife-tab surface-tab active" data-tab="games">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="6" width="20" height="12" rx="2"/>
+        <path d="M6 12h4M8 10v4M15 12h.01M18 12h.01"/>
+      </svg>
+      Games
+    </button>
+    <button class="ife-tab surface-tab" data-tab="movies">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="2"/>
+        <path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M2 17h5M17 17h5"/>
+      </svg>
+      Movies
+    </button>
+
+    <button class="ife-tab surface-tab" data-tab="music">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+      </svg>
+      Music
+    </button>
+  </div>
+
+  <!-- ── GAMES PANEL ── -->
+  <div class="ife-panel active" id="ifePanel_games">
+    <div class="ife-games">
+      <div class="ife-section-header">
+        <h2 class="ife-section-title">Games</h2>
+        <p class="ife-section-sub">Pass the time at 35,000 ft</p>
+      </div>
+
+      <div class="ife-game-card">
+        <div class="ife-game-card-header">
+          <div class="ife-game-info">
+            <div class="ife-game-icon">✈️</div>
+            <div>
+              <div class="ife-game-name">Flappy Plane</div>
+              <div class="ife-game-desc">Navigate through storm clouds. Don't crash!</div>
+            </div>
+          </div>
+          <div class="ife-game-meta">
+            <span class="ife-badge ife-badge-green">Free to Play</span>
+            <span class="ife-badge ife-badge-gold">AFV Original</span>
+          </div>
+        </div>
+
+        <div class="ife-canvas-wrap">
+          <canvas id="flappyCanvas"></canvas>
+        </div>
+
+        <div class="ife-game-scorebar">
+          <div class="ife-score-item">
+            <span class="ife-score-label">Score</span>
+            <span class="ife-score-value" id="fpScore">0</span>
+          </div>
+          <div class="ife-score-item">
+            <span class="ife-score-label">Best</span>
+            <span class="ife-score-value" id="fpBest">0</span>
+          </div>
+          <span class="ife-score-hint">Space / Tap to flap &nbsp;·&nbsp; Dodge the storm clouds</span>
+        </div>
+      </div>
+
+      <div class="ife-game-card">
+        <div class="ife-game-card-header">
+          <div class="ife-game-info">
+            <div class="ife-game-icon">💥</div>
+            <div>
+              <div class="ife-game-name">Angry Planes</div>
+              <div class="ife-game-desc">Prof's worst nightmare. Aim and crash into towers!</div>
+            </div>
+          </div>
+          <div class="ife-game-meta">
+            <span class="ife-badge ife-badge-green">Free to Play</span>
+            <span class="ife-badge ife-badge-gold">AFV Original</span>
+          </div>
+        </div>
+
+        <div class="ife-canvas-wrap">
+          <canvas id="angryCanvas"></canvas>
+        </div>
+
+        <div class="ife-game-scorebar">
+          <div class="ife-score-item">
+            <span class="ife-score-label">Score</span>
+            <span class="ife-score-value" id="apScore">0</span>
+          </div>
+          <div class="ife-score-item">
+            <span class="ife-score-label">Best</span>
+            <span class="ife-score-value" id="apBest">0</span>
+          </div>
+          <span class="ife-score-hint">Drag &amp; release to launch &nbsp;·&nbsp; Crash into towers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MOVIES PANEL ── -->
+  <div class="ife-panel" id="ifePanel_movies">
+    <div class="ife-movies">
+      <div class="ife-section-header">
+        <h2 class="ife-section-title">Videos</h2>
+        <p class="ife-section-sub">Africana content &amp; more — click any card to watch</p>
+      </div>
+
+      <div class="ife-movies-grid" id="ifeMoviesGrid">
+        <!-- Populated by ife.js -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── MUSIC PANEL ── -->
+  <div class="ife-panel" id="ifePanel_music">
+    <div class="ife-music">
+      <div class="ife-section-header">
+        <h2 class="ife-section-title">Music</h2>
+        <p class="ife-section-sub">Afrobeats, Highlife &amp; the sounds of the continent</p>
+      </div>
+
+      <div class="ife-music-player" id="ifeMusicPlayer">
+
+        <div class="ife-music-nowplaying">
+          <div class="ife-music-art" id="ifeMusicArt"></div>
+          <div class="ife-music-now-info">
+            <span class="ife-music-now-badge">Now Playing</span>
+            <div class="ife-music-now-title" id="ifeMusicTitle">Select a track</div>
+            <div class="ife-music-now-artist" id="ifeMusicArtist"></div>
+            <div class="ife-music-now-album" id="ifeMusicAlbum"></div>
+          </div>
+
+          <div class="ife-music-progress-wrap">
+            <div class="ife-music-bar">
+              <div class="ife-music-fill" id="ifeMusicProgress"></div>
+            </div>
+            <div class="ife-music-time">
+              <span id="ifeMusicCurrent">0:00</span>
+              <span id="ifeMusicDuration">—</span>
+            </div>
+          </div>
+
+          <div class="ife-music-controls">
+            <button class="ife-ctrl-btn" id="ifePrevBtn" aria-label="Previous">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+            </button>
+            <button class="ife-ctrl-btn ife-ctrl-main" id="ifePlayBtn" aria-label="Play">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button class="ife-ctrl-btn" id="ifeNextBtn" aria-label="Next">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="ife-music-playlist" id="ifeMusicPlaylist">
+          <!-- Populated by ife.js -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /ife-content -->
+
+<!-- ── VIDEO MODAL ── -->
+<div class="ife-video-modal" id="ifeVideoModal">
+  <button class="ife-video-modal-close" id="ifeVideoModalClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M18 6 6 18M6 6l12 12"/>
+    </svg>
+  </button>
+  <video class="ife-video-player" id="ifeVideoPlayer" controls playsinline></video>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/ife.js"></script>
+</body>
+</html>

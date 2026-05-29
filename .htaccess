@@ -1,0 +1,28 @@
+Options -Indexes
+RewriteEngine On
+
+# ── Security: block direct access to server-side directories ──────────────────
+RewriteRule ^includes(/|$) - [F,L]
+RewriteRule ^data(/|$)     - [F,L]
+RewriteRule ^database(/|$) - [F,L]
+
+# ── API routing ───────────────────────────────────────────────────────────────
+RewriteRule ^api/auth(/.*)?$     api/auth.php     [QSA,L]
+RewriteRule ^api/flights(/.*)?$  api/flights.php  [QSA,L]
+RewriteRule ^api/bookings(/.*)?$ api/bookings.php [QSA,L]
+RewriteRule ^api/fleet(/.*)?$    api/fleet.php    [QSA,L]
+RewriteRule ^api/admin(/.*)?$    api/admin.php    [QSA,L]
+RewriteRule ^api/vatsim(/.*)?$   api/vatsim.php   [QSA,L]
+RewriteRule ^api/health$         api/health.php   [QSA,L]
+
+# ── Static assets pass through ────────────────────────────────────────────────
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ── Clean page URLs (without .php extension) ──────────────────────────────────
+RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}.php -f
+RewriteRule ^([a-z][a-z0-9-]*)/?$ $1.php [L]
+
+# ── Root → index.php ─────────────────────────────────────────────────────────
+RewriteRule ^$ index.php [L]

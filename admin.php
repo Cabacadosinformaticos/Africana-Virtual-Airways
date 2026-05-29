@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Africana Airways Back Office</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/admin.css" />
+</head>
+<body>
+<nav class="navbar scrolled">
+  <div class="nav-inner">
+    <a href="index.php" class="nav-logo">
+      <img src="assets/img/Africana Airways With Logo.png" alt="Africana Airways" class="logo-img" />
+    </a>
+    <div class="admin-nav-actions">
+      <span class="admin-chip admin-chip-brand">Back Office</span>
+      <a href="index.php" class="btn-nav-login">Public Site</a>
+    </div>
+  </div>
+</nav>
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-head">
+      <div class="admin-sidebar-title">Operations Control</div>
+      <div class="admin-sidebar-copy">Manage bookings, fleet assignments, and the live route network from one place.</div>
+    </div>
+
+    <div class="admin-profile-card">
+      <div class="admin-profile-avatar" id="adminUserInitials">AF</div>
+      <div>
+        <div class="admin-profile-name" id="adminUserName">Loading...</div>
+        <div class="admin-profile-role">Admin session</div>
+      </div>
+    </div>
+
+    <label class="admin-side-search">
+      <span>Quick search</span>
+      <input id="globalSearchInput" type="search" placeholder="Filter current table" />
+    </label>
+
+    <nav class="admin-side-nav">
+      <button type="button" class="admin-side-link active" data-section="dashboard">
+        <span class="admin-side-icon">01</span>
+        <span>
+          <strong>Dashboard</strong>
+          <small>Operations overview</small>
+        </span>
+      </button>
+      <button type="button" class="admin-side-link" data-section="routes">
+        <span class="admin-side-icon">02</span>
+        <span>
+          <strong>Routes</strong>
+          <small>Edit sectors and aircraft</small>
+        </span>
+      </button>
+      <button type="button" class="admin-side-link" data-section="fleet">
+        <span class="admin-side-icon">03</span>
+        <span>
+          <strong>Fleet</strong>
+          <small>Maintain aircraft records</small>
+        </span>
+      </button>
+      <button type="button" class="admin-side-link" data-section="bookings">
+        <span class="admin-side-icon">04</span>
+        <span>
+          <strong>Bookings</strong>
+          <small>Track passenger demand</small>
+        </span>
+      </button>
+      <button type="button" class="admin-side-link" data-section="users">
+        <span class="admin-side-icon">05</span>
+        <span>
+          <strong>Users</strong>
+          <small>Roles and member access</small>
+        </span>
+      </button>
+      <button type="button" class="admin-side-link" data-section="metrics">
+        <span class="admin-side-icon">06</span>
+        <span>
+          <strong>Site Metrics</strong>
+          <small>Usage analytics and statistics</small>
+        </span>
+      </button>
+      <button type="button" class="admin-side-link" data-section="vatsim">
+        <span class="admin-side-icon">07</span>
+        <span>
+          <strong>VATSIM Live</strong>
+          <small>Current AFV pilots online</small>
+        </span>
+      </button>
+    </nav>
+
+    <div class="admin-sidebar-foot">
+      <div class="sidebar-status-card">
+        <span>System status</span>
+        <strong id="sidebarHealth">Syncing data...</strong>
+      </div>
+      <button type="button" class="btn btn-outline-red btn-sm admin-logout-btn" id="logoutButton">Logout</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <section class="admin-section" data-section="dashboard">
+      <div class="admin-section-head">
+        <div>
+          <p class="admin-section-eyebrow">Africana Airways</p>
+          <h1 class="admin-section-title">Welcome, <span id="dashboardUserName">Admin</span></h1>
+          <p class="admin-section-subtitle">A live operating picture across bookings, fleet, and route coverage.</p>
+        </div>
+        <div class="admin-head-actions">
+          <div class="admin-timestamp" id="lastUpdated">Updating...</div>
+          <button type="button" class="btn btn-outline-red btn-sm" id="refreshDashboardButton">Refresh</button>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card">
+          <span class="summary-label">Total Bookings</span>
+          <strong class="summary-value" id="statBookings">-</strong>
+          <span class="summary-meta" id="statBookingsMeta">Demand across the whole network</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Virtual Revenue</span>
+          <strong class="summary-value" id="statRevenue">-</strong>
+          <span class="summary-meta" id="statRevenueMeta">Confirmed and on-time traffic</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Active Fleet</span>
+          <strong class="summary-value" id="statFleet">-</strong>
+          <span class="summary-meta" id="statFleetMeta">Aircraft available for assignment</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Active Routes</span>
+          <strong class="summary-value" id="statRoutes">-</strong>
+          <span class="summary-meta" id="statRoutesMeta">Routes currently on sale</span>
+        </article>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="panel panel-span-two">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Booking Flow</h2>
+              <p class="panel-copy">Monthly booking volume from the live database.</p>
+            </div>
+          </div>
+          <div class="chart-surface" id="bookingsChart"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Operations Pulse</h2>
+              <p class="panel-copy">What needs attention right now.</p>
+            </div>
+          </div>
+          <div class="metric-stack" id="operationsPulse"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Top Routes</h2>
+              <p class="panel-copy">Best-performing sectors by booking volume.</p>
+            </div>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Route</th>
+                <th>Bookings</th>
+              </tr>
+            </thead>
+            <tbody id="topRoutesTable"></tbody>
+          </table>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Fleet Allocation</h2>
+              <p class="panel-copy">Aircraft and route coverage by hub.</p>
+            </div>
+          </div>
+          <div class="allocation-stack" id="hubAllocation"></div>
+        </article>
+
+        <article class="panel panel-span-three">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Recent Bookings</h2>
+              <p class="panel-copy">Latest passenger activity in the system.</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Ref</th>
+                  <th>Passenger</th>
+                  <th>Route</th>
+                  <th>Travel date</th>
+                  <th>Class</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="recentBookingsTable"></tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" data-section="routes">
+      <div class="admin-section-head">
+        <div>
+          <p class="admin-section-eyebrow">Network Management</p>
+          <h1 class="admin-section-title">Routes</h1>
+          <p class="admin-section-subtitle">Change sectors, move aircraft between routes, and edit departure banks from the database-backed control panel.</p>
+        </div>
+        <div class="admin-head-actions">
+          <button type="button" class="btn btn-outline-red btn-sm" id="routeNewButton">New Route</button>
+        </div>
+      </div>
+
+      <div class="summary-grid summary-grid-tight">
+        <article class="summary-card">
+          <span class="summary-label">Total Routes</span>
+          <strong class="summary-value" id="routeSummaryTotal">-</strong>
+          <span class="summary-meta">All sectors in the database</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Active Routes</span>
+          <strong class="summary-value" id="routeSummaryActive">-</strong>
+          <span class="summary-meta">Routes visible in search</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Aircraft Assigned</span>
+          <strong class="summary-value" id="routeSummaryAssigned">-</strong>
+          <span class="summary-meta">Sectors with an allocated aircraft</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Hubs Covered</span>
+          <strong class="summary-value" id="routeSummaryHubs">-</strong>
+          <span class="summary-meta">Operational bases represented</span>
+        </article>
+      </div>
+
+      <div class="workspace-grid">
+        <article class="panel">
+          <div class="panel-head panel-head-stack">
+            <div>
+              <h2 class="panel-title">Route Bank</h2>
+              <p class="panel-copy">Select a route to edit or filter the active network.</p>
+            </div>
+            <div class="panel-tools">
+              <input id="routeSearchInput" class="admin-input" type="search" placeholder="Search by airport or flight number" />
+              <select id="routeStatusFilter" class="admin-select">
+                <option value="all">All statuses</option>
+                <option value="active">Active only</option>
+                <option value="inactive">Inactive only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-scroll table-scroll-tall">
+            <table class="admin-table admin-table-selectable">
+              <thead>
+                <tr>
+                  <th>Hub</th>
+                  <th>Route</th>
+                  <th>Aircraft</th>
+                  <th>Schedules</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="routesTable"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel sticky-panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title" id="routeFormTitle">Create Route</h2>
+              <p class="panel-copy" id="routeFormSubtitle">Build a new sector and assign aircraft coverage.</p>
+            </div>
+            <button type="button" class="btn btn-outline-red btn-sm" id="resetRouteFormButton">Clear</button>
+          </div>
+
+          <form id="routeForm" class="form-grid">
+            <input type="hidden" id="routeId" />
+
+            <label class="form-field">
+              <span>Origin</span>
+              <select id="routeFromAirport" class="admin-select" required></select>
+            </label>
+
+            <label class="form-field">
+              <span>Destination</span>
+              <select id="routeToAirport" class="admin-select" required></select>
+            </label>
+
+            <label class="form-field">
+              <span>Hub</span>
+              <select id="routeHubAirport" class="admin-select" required></select>
+            </label>
+
+            <label class="form-field">
+              <span>Status</span>
+              <select id="routeStatus" class="admin-select" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </label>
+
+            <label class="form-field form-field-wide">
+              <span>Assigned Aircraft</span>
+              <select id="routeAircraft" class="admin-select"></select>
+            </label>
+
+            <div class="form-field form-field-wide">
+              <span>Departure Banks</span>
+              <div class="schedule-list" id="routeSchedules"></div>
+              <button type="button" class="btn btn-outline-red btn-sm" id="addScheduleButton">Add Departure</button>
+            </div>
+
+            <div class="form-footer">
+              <div class="form-hint" id="routeFormMeta">Choose a route from the table or start a new one.</div>
+              <button type="submit" class="btn btn-primary btn-sm" id="saveRouteButton">Save Route</button>
+            </div>
+          </form>
+        </article>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" data-section="fleet">
+      <div class="admin-section-head">
+        <div>
+          <p class="admin-section-eyebrow">Fleet Maintenance</p>
+          <h1 class="admin-section-title">Fleet</h1>
+          <p class="admin-section-subtitle">Keep aircraft records current and make sure route planners always have the right equipment available.</p>
+        </div>
+        <div class="admin-head-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="addAircraftButton">Add Aircraft</button>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Registration</th>
+              <th>Type</th>
+              <th>Hub</th>
+              <th>Seats</th>
+              <th>Assigned Routes</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="fleetTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" data-section="bookings">
+      <div class="admin-section-head">
+        <div>
+          <p class="admin-section-eyebrow">Commercial Operations</p>
+          <h1 class="admin-section-title">Bookings</h1>
+          <p class="admin-section-subtitle">Inspect and update the status of any reservation in the database.</p>
+        </div>
+        <div class="admin-head-actions">
+          <input id="bookingSearchInput" class="admin-input" type="search" placeholder="Search bookings" />
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Ref</th>
+              <th>Passenger</th>
+              <th>Flight</th>
+              <th>Route</th>
+              <th>Date</th>
+              <th>Class</th>
+              <th>Pax</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="allBookingsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" data-section="users">
+      <div class="admin-section-head">
+        <div>
+          <p class="admin-section-eyebrow">Access Control</p>
+          <h1 class="admin-section-title">Users</h1>
+          <p class="admin-section-subtitle">Create staff logins, review registered pilots, and control who can access the back office.</p>
+        </div>
+        <div class="admin-head-actions">
+          <input id="userSearchInput" class="admin-input" type="search" placeholder="Search users" />
+        </div>
+      </div>
+
+      <div class="admin-user-grid">
+        <article class="panel panel-span-two">
+          <div class="panel-head panel-head-stack">
+            <div>
+              <h2 class="panel-title">Create Login</h2>
+              <p class="panel-copy">The main admin can create database-backed logins for staff and other admins.</p>
+            </div>
+            <div class="admin-access-note" id="userCreateNotice">Only the main admin can create or promote accounts.</div>
+          </div>
+
+          <form id="userCreateForm" class="form-grid">
+            <label class="form-field">
+              <span>Full Name</span>
+              <input id="userCreateName" class="admin-input" type="text" placeholder="Amina Hassan" required />
+            </label>
+
+            <label class="form-field">
+              <span>Email</span>
+              <input id="userCreateEmail" class="admin-input" type="email" placeholder="amina@africana.va" required />
+            </label>
+
+            <label class="form-field">
+              <span>Password</span>
+              <input id="userCreatePassword" class="admin-input" type="password" placeholder="Temporary password" required />
+            </label>
+
+            <label class="form-field">
+              <span>Role</span>
+              <select id="userCreateRole" class="admin-select">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </label>
+
+            <label class="form-field form-field-wide">
+              <span>VATSIM CID (Optional)</span>
+              <input id="userCreateVatsimCid" class="admin-input" type="text" placeholder="1234567" />
+            </label>
+
+            <div class="form-field form-field-wide">
+              <div class="admin-inline-actions">
+                <button type="submit" class="btn btn-primary" id="userCreateSubmit">Create Login</button>
+              </div>
+            </div>
+          </form>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head panel-head-stack">
+            <div>
+              <h2 class="panel-title">Access Rules</h2>
+              <p class="panel-copy">User permissions are stored in the database and enforced after sign-in.</p>
+            </div>
+          </div>
+          <div class="admin-access-rules">
+            <div class="metric-row">
+              <span>Main admin account</span>
+              <strong id="mainAdminEmail">main.admin@africana.va</strong>
+            </div>
+            <div class="metric-row">
+              <span>Back office entry</span>
+              <strong>Sign In flow</strong>
+            </div>
+            <div class="metric-row">
+              <span>Passenger portal</span>
+              <strong>My Bookings + IFE</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>VATSIM CID</th>
+              <th>Joined</th>
+              <th>Created By</th>
+              <th>Hours</th>
+              <th>Points</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody id="usersTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" data-section="metrics">
+      <div class="admin-section-head">
+        <div>
+          <p class="admin-section-eyebrow">Analytics</p>
+          <h1 class="admin-section-title">Site Metrics</h1>
+          <p class="admin-section-subtitle">Platform usage, booking behaviour, and statistical analysis of user activity across Africana Virtual Airways.</p>
+        </div>
+        <div class="admin-head-actions">
+          <button type="button" class="btn btn-outline-red btn-sm" id="refreshMetricsButton">Refresh</button>
+        </div>
+      </div>
+
+      <!-- Essential KPIs -->
+      <div class="summary-grid">
+        <article class="summary-card">
+          <span class="summary-label">Upcoming Bookings</span>
+          <strong class="summary-value" id="mStatUpcoming">-</strong>
+          <span class="summary-meta">Confirmed future reservations in the system</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Active Users (30d)</span>
+          <strong class="summary-value" id="mStatActive">-</strong>
+          <span class="summary-meta">Unique users who made a booking this month</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Conversion Rate</span>
+          <strong class="summary-value" id="mStatConversion">-</strong>
+          <span class="summary-meta">Registered users who completed at least one booking</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Avg. Ticket Price</span>
+          <strong class="summary-value" id="mStatAvgPrice">-</strong>
+          <span class="summary-meta">Mean booking value across all active reservations</span>
+        </article>
+      </div>
+
+      <!-- Line chart: booking trend / Doughnut: cabin class -->
+      <div class="metrics-grid">
+        <article class="panel panel-span-two">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Booking Demand — Last 12 Months</h2>
+              <p class="panel-copy">Monthly booking volume and new user registrations. Tracks whether demand is growing alongside the user base.</p>
+            </div>
+          </div>
+          <div class="metrics-chart-wrap"><canvas id="metricsGrowthChart"></canvas></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Cabin Class Share</h2>
+              <p class="panel-copy">Proportion of bookings by travel class — economy drives volume, business and first drive value.</p>
+            </div>
+          </div>
+          <div class="metrics-chart-wrap"><canvas id="metricsCabinChart"></canvas></div>
+        </article>
+      </div>
+
+      <!-- Bar chart: top routes / Bar chart: revenue by class -->
+      <div class="metrics-grid">
+        <article class="panel panel-span-two">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Top Routes by Bookings</h2>
+              <p class="panel-copy">Best-performing sectors in the network. Shows where passenger demand is concentrated.</p>
+            </div>
+          </div>
+          <div class="metrics-chart-wrap"><canvas id="metricsRoutesChart"></canvas></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Revenue by Cabin Class</h2>
+              <p class="panel-copy">Virtual revenue split. Economy leads in volume; business and first generate comparable value from fewer seats.</p>
+            </div>
+          </div>
+          <div class="metrics-chart-wrap"><canvas id="metricsRevenueChart"></canvas></div>
+        </article>
+      </div>
+
+      <!-- Histogram: price distribution / Scatter: distance vs price -->
+      <div class="metrics-grid">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Ticket Price Distribution</h2>
+              <p class="panel-copy">Histogram of all active booking prices. Shows whether the fare range is concentrated or spread across the network.</p>
+            </div>
+          </div>
+          <div class="metrics-chart-wrap"><canvas id="metricsHistogramChart"></canvas></div>
+        </article>
+        <article class="panel panel-span-two">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Distance vs Ticket Price — Correlation</h2>
+              <p class="panel-copy">Each point is one booking. Validates that the pricing model scales correctly with route distance.</p>
+            </div>
+          </div>
+          <div class="metrics-chart-wrap"><canvas id="metricsScatterChart"></canvas></div>
+        </article>
+      </div>
+
+      <!-- Statistical summary -->
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Statistical Analysis — Ticket Prices</h2>
+            <p class="panel-copy">Descriptive statistics computed from all active (non-cancelled) bookings: mean, median, mode, standard deviation, variance, and key percentiles.</p>
+          </div>
+        </div>
+        <div class="stats-grid" id="metricsStatsGrid"></div>
+        <div class="ci-note" id="metricsCiNote" style="display:none;margin-top:14px"></div>
+      </article>
+
+      <!-- Heatmap: bookings by day of week × cabin class -->
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">When Passengers Book — Day of Week × Cabin Class</h2>
+            <p class="panel-copy">Number of reservations placed on each weekday, broken down by cabin class. Business travellers tend to book mid-week; leisure on weekends.</p>
+          </div>
+        </div>
+        <div class="heatmap-wrap" id="metricsHeatmap"></div>
+      </article>
+
+      <!-- Booking lifecycle funnel / Nationalities bar chart -->
+      <div class="metrics-grid">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Booking Lifecycle</h2>
+              <p class="panel-copy">How bookings progress through the operational pipeline — from creation through to a confirmed on-time flight.</p>
+            </div>
+          </div>
+          <div class="funnel-wrap" id="metricsFunnel"></div>
+        </article>
+        <article class="panel panel-span-two">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Passenger Nationalities</h2>
+              <p class="panel-copy">Top 10 nationalities of passengers recorded across all bookings. Reflects the geographic reach of the airline's passenger base.</p>
+            </div>
+          </div>
+          <div class="metrics-chart-wrap"><canvas id="metricsNationalityChart"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" data-section="vatsim">
+      <div class="admin-section-head">
+        <div>
+          <p class="admin-section-eyebrow">Live Network</p>
+          <h1 class="admin-section-title">VATSIM Live</h1>
+          <p class="admin-section-subtitle">Track AFV pilots online in real time.</p>
+        </div>
+        <div class="admin-head-actions">
+          <button type="button" class="btn btn-outline-red btn-sm" id="refreshVatsimButton">Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Callsign</th>
+              <th>Pilot</th>
+              <th>CID</th>
+              <th>Aircraft</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Altitude</th>
+              <th>Speed</th>
+            </tr>
+          </thead>
+          <tbody id="vatsimTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="admin-modal-overlay" id="aircraftModal">
+  <div class="admin-modal-card">
+    <div class="admin-modal-head">
+      <div>
+        <h2 class="panel-title" id="aircraftModalTitle">Add Aircraft</h2>
+        <p class="panel-copy" id="aircraftModalSubtitle">Create a new aircraft record for the fleet database.</p>
+      </div>
+      <button type="button" class="admin-close-button" id="closeAircraftModalButton" aria-label="Close aircraft form">×</button>
+    </div>
+
+    <form id="aircraftForm" class="form-grid">
+      <input type="hidden" id="aircraftId" />
+
+      <label class="form-field">
+        <span>Registration</span>
+        <input id="aircraftRegistration" class="admin-input" type="text" placeholder="C9-AFX" required />
+      </label>
+
+      <label class="form-field">
+        <span>Type</span>
+        <input id="aircraftType" class="admin-input" type="text" placeholder="Boeing 737-800" required />
+      </label>
+
+      <label class="form-field">
+        <span>Category</span>
+        <select id="aircraftCategory" class="admin-select" required>
+          <option value="Regional">Regional</option>
+          <option value="Short Range">Short Range</option>
+          <option value="Long Range">Long Range</option>
+        </select>
+      </label>
+
+      <label class="form-field">
+        <span>Hub</span>
+        <select id="aircraftHub" class="admin-select" required></select>
+      </label>
+
+      <label class="form-field">
+        <span>Economy Seats</span>
+        <input id="aircraftSeatsEconomy" class="admin-input" type="number" min="0" value="0" required />
+      </label>
+
+      <label class="form-field">
+        <span>Business Seats</span>
+        <input id="aircraftSeatsBusiness" class="admin-input" type="number" min="0" value="0" required />
+      </label>
+
+      <label class="form-field">
+        <span>First Seats</span>
+        <input id="aircraftSeatsFirst" class="admin-input" type="number" min="0" value="0" required />
+      </label>
+
+      <label class="form-field">
+        <span>Status</span>
+        <select id="aircraftStatus" class="admin-select" required>
+          <option value="active">Active</option>
+          <option value="maintenance">Maintenance</option>
+          <option value="retired">Retired</option>
+        </select>
+      </label>
+
+      <label class="form-field">
+        <span>Range (km)</span>
+        <input id="aircraftRangeKm" class="admin-input" type="number" min="0" value="0" required />
+      </label>
+
+      <label class="form-field">
+        <span>Cruise Speed (km/h)</span>
+        <input id="aircraftCruiseSpeed" class="admin-input" type="number" min="0" value="0" required />
+      </label>
+
+      <label class="form-field form-field-wide">
+        <span>Image URL</span>
+        <input id="aircraftImage" class="admin-input" type="url" placeholder="https://example.com/aircraft.jpg" />
+      </label>
+
+      <label class="form-field form-field-wide">
+        <span>Description</span>
+        <textarea id="aircraftDescription" class="admin-textarea" rows="4" placeholder="Internal notes or passenger-facing description"></textarea>
+      </label>
+
+      <div class="form-footer">
+        <button type="button" class="btn btn-outline-red btn-sm hidden" id="retireAircraftButton">Retire Aircraft</button>
+        <div class="form-actions-right">
+          <button type="button" class="btn btn-outline-red btn-sm" id="cancelAircraftButton">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm" id="saveAircraftButton">Save Aircraft</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

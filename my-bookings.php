@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Bookings - Africana Airways</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/accessibility.css" />
+  <link rel="stylesheet" href="assets/css/booking.css" />
+  <style>
+    .booking-status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .booking-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .booking-card-head {
+      padding: 18px 20px;
+      background: var(--dark);
+      color: var(--white);
+    }
+
+    .booking-card-body {
+      padding: 18px 20px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .status-confirmed { background: #fff3cd; color: #8a5a00; }
+    .status-on_time { background: #dcfce7; color: #166534; }
+    .status-delayed { background: #fee2e2; color: #b91c1c; }
+    .status-cancelled { background: #e5e7eb; color: #374151; }
+
+    .lookup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .booking-meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.85rem;
+    }
+
+    .portal-tab-strip {
+      margin-bottom: 24px;
+    }
+
+    .portal-panel.hidden {
+      display: none;
+    }
+
+    .ife-access-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .ife-access-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(224, 32, 64, 0.1);
+      border-radius: 24px;
+      color: var(--gray-800);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ife-access-label {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(224, 32, 64, 0.08);
+      color: var(--red-700);
+      font-family: var(--font-heading);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ife-access-title {
+      margin: 14px 0 8px;
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .ife-access-copy {
+      margin: 0 0 18px;
+      color: var(--gray-600);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.php" class="nav-logo">
+      <img src="assets/img/Africana Airways With Logo.png" alt="Africana Airways" class="logo-img" />
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Home
+      </a></li>
+      <li><a href="routes.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        Routes
+      </a></li>
+      <li><a href="fleet.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Fleet
+      </a></li>
+      <li><a href="vatsim.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.5l-8.2-2.73V6.5a1.8 1.8 0 0 0-3.6 0v7.27L2 16.5v2l8.2-1.3V21l-2.4 1.5V24l4.2-1 4.2 1v-1.5L13.8 21v-3.8l8.2 1.3z"/></svg>
+        Live
+      </a></li>
+      <li><a href="ife.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Entertainment
+      </a></li>
+      <li><a href="about.php">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        About
+      </a></li>
+      <li><a href="booking.php" class="nav-link-book">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        Book Now
+      </a></li>
+      <li><a href="my-bookings.php" class="nav-link-portal active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v14H4z"/><path d="M8 2v8M16 2v8M7 11h10M7 15h6"/></svg>
+        My Bookings
+      </a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div style="background:var(--dark);padding:26px 0;margin-top:76px;">
+  <div class="container">
+    <div class="section-tag" style="color:rgba(255,255,255,0.7);">Passenger Portal</div>
+    <h1 style="color:var(--white);margin:10px 0 6px;">My Bookings</h1>
+    <p style="color:rgba(255,255,255,0.65);max-width:720px;margin:0;">Check your PNR, review each flight segment, and see whether your trip is confirmed, on time, delayed, or cancelled.</p>
+  </div>
+</div>
+
+<div class="container" style="padding:34px 0 60px;">
+  <div class="portal-tab-strip surface-tabs surface-tabs--compact" role="tablist" aria-label="Passenger portal tabs">
+    <button class="portal-tab surface-tab active" id="portalTabBookings" type="button" data-portal-tab="bookings">My Bookings</button>
+    <button class="portal-tab surface-tab" id="portalTabIfe" type="button" data-portal-tab="ife">Africana IFE</button>
+  </div>
+
+  <section class="portal-panel" id="portalPanelBookings">
+    <div class="booking-form-section" style="margin-bottom:24px;">
+      <div class="form-section-header">
+        <div class="step-number">1</div>
+        <div class="step-title">Find Your Booking</div>
+      </div>
+      <div class="form-section-body">
+        <div class="lookup-grid" style="width:100%;">
+          <div class="form-group">
+            <label for="lookupRef" style="font-family:var(--font-heading);font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-600);">Booking Ref</label>
+            <input type="text" class="form-control" id="lookupRef" placeholder="AFVABC123" />
+          </div>
+          <div class="form-group">
+            <label for="lookupEmail" style="font-family:var(--font-heading);font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-600);">Passenger Email</label>
+            <input type="email" class="form-control" id="lookupEmail" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;width:100%;">
+          <div id="accountBanner" style="font-size:0.85rem;color:var(--gray-500);">Use your booking reference and email, or sign in to load all bookings linked to your account.</div>
+          <button class="btn btn-primary" id="lookupButton" type="button" onclick="lookupBooking()">Find Booking</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="resultsMessage" style="color:var(--gray-500);margin-bottom:18px;"></div>
+
+    <div id="section-confirmed" style="margin-bottom:26px;">
+      <div class="section-tag">Confirmed</div>
+      <div class="booking-status-grid" id="group-confirmed"></div>
+    </div>
+
+    <div id="section-on_time" style="margin-bottom:26px;">
+      <div class="section-tag">On Time</div>
+      <div class="booking-status-grid" id="group-on_time"></div>
+    </div>
+
+    <div id="section-delayed" style="margin-bottom:26px;">
+      <div class="section-tag">Delayed</div>
+      <div class="booking-status-grid" id="group-delayed"></div>
+    </div>
+
+    <div id="section-cancelled" style="margin-bottom:26px;">
+      <div class="section-tag">Cancelled</div>
+      <div class="booking-status-grid" id="group-cancelled"></div>
+    </div>
+  </section>
+
+  <section class="portal-panel hidden" id="portalPanelIfe">
+    <div class="booking-form-section" style="margin-bottom:24px;">
+      <div class="form-section-header">
+        <div class="step-number">2</div>
+        <div class="step-title">Africana IFE</div>
+      </div>
+      <div class="form-section-body" style="display:block;">
+        <p style="margin:0;color:var(--gray-600);line-height:1.7;">Africana IFE now launches from your database bookings. Sign in or load a booking above, then open the entertainment portal for any active trip below.</p>
+        <div id="ifeAccessMessage" style="margin-top:14px;color:var(--gray-500);">Load a booking to unlock Africana IFE from the database.</div>
+        <div class="ife-access-grid" id="ifeAccessList"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/my-bookings.js"></script>
+</body>
+</html>
